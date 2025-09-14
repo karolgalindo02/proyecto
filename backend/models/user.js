@@ -42,6 +42,11 @@ User.findByEmail = (email, result) => {
 };
 
 User.create = async (user, result) => {
+   // Validación de campos requeridos
+  if (!user.email || !user.name || !user.lastname || !user.phone || !user.password) {
+    result({ message: "Faltan campos requeridos" }, null);
+    return;
+  }
   const hash = await bcrypt.hash(user.password, 10);
   const sql = `INSERT INTO USERS(
                 email, 

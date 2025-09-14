@@ -23,7 +23,7 @@ module.exports = {
       }
       const isPasswordValid = await bcrypt.compare(password, myUser.password);
       if (isPasswordValid) {
-        const token = jwt.sign({ id: myUser.id, email: myUser.email }, keys.secretOrKey, {});
+        const token = jwt.sign({ id: myUser.id, email: myUser.email }, keys.secretOrKey, { expiresIn: '1h'}); // Token válido por 1 hora
         const data = {
           id: myUser.id,
           email: myUser.email,

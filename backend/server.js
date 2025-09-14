@@ -21,7 +21,7 @@ app.set('port', port);
 
 usersRoutes(app);
 
-server.listen(3000, '192.168.1.77' || 'localhost', function () {
+server.listen(3000, 'localhost', function(){
   console.log('App node.js ' + process.pid + ' ejecutando en ' + server.address().address + ':' + server.address().port);
 });
 
@@ -33,7 +33,10 @@ app.get('/test', (req, res) => {
   res.send('Ruta TEST');
 });
 
-app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(err.status || 500).send(err.stack);
+// Middleware para forzar HTTPS en producción
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https' && process.env.NODE_ENV === 'production') {
+    return res.redirect('https://' + req.headers.host + req.url);
+  }
+  next();
 });
