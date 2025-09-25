@@ -13,3 +13,20 @@ CREATE TABLE users (
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
+
+CREATE TABLE tasks (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  project_id BIGINT NOT NULL,
+  assigned_to BIGINT NOT NULL,
+  progress INT DEFAULT 0,
+  priority ENUM('baja', 'media', 'alta') DEFAULT 'media',
+  due_date DATE,
+  status ENUM('en progreso', 'finalizada') DEFAULT 'en progreso',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (project_id) REFERENCES projects(id),
+  FOREIGN KEY (assigned_to) REFERENCES users(id)
+);

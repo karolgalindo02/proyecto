@@ -1,4 +1,3 @@
-// middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
 
@@ -32,4 +31,20 @@ function verifyToken(req, res, next) {
   });
 }
 
-module.exports = verifyToken;
+// Middleware para autorizar uno o varios roles
+function authorizeRoles(roles) {
+  return (req, res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: `Acceso denegado: se requiere rol ${roles.join(' o ')}`
+      });
+    }
+    next();
+  };
+}
+
+module.exports = {
+  verifyToken,
+  authorizeRoles
+};

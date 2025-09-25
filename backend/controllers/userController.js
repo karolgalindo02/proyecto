@@ -7,6 +7,7 @@ module.exports = {
   login(req, res) {
     const email = req.body.email;
     const password = req.body.password;
+
     User.findByEmail(email, async (err, myUser) => {
       if (err) {
         return res.status(501).json({
@@ -15,15 +16,23 @@ module.exports = {
           error: err
         });
       }
+
       if (!myUser) {
         return res.status(401).json({
           success: false,
           message: 'El email no existe en la base de datos'
         });
       }
+
       const isPasswordValid = await bcrypt.compare(password, myUser.password);
+
       if (isPasswordValid) {
-        const token = jwt.sign({ id: myUser.id, email: myUser.email }, keys.secretOrKey, { expiresIn: '1h'}); // Token válido por 1 hora
+        const token = jwt.sign(
+          { id: myUser.id, email: myUser.email, role: myUser.role },
+          keys.secretOrKey,
+          { expiresIn: '1h' }
+        );
+
         const data = {
           id: myUser.id,
           email: myUser.email,
@@ -31,11 +40,13 @@ module.exports = {
           lastname: myUser.lastname,
           image: myUser.image,
           phone: myUser.phone,
+          role: myUser.role,
           session_token: `JWT ${token}`
-        }
+        };
+
         return res.status(201).json({
           success: true,
-          message: 'Usuario autenticado ',
+          message: 'Usuario autenticado',
           data: data
         });
       } else {
@@ -46,6 +57,7 @@ module.exports = {
       }
     });
   },
+
   getAllUsers(req, res) {
     User.findAll((err, users) => {
       if (err) {
@@ -62,6 +74,7 @@ module.exports = {
       });
     });
   },
+
   getUserById(req, res) {
     const id = req.params.id;
     User.findById(id, (err, user) => {
@@ -85,8 +98,14 @@ module.exports = {
       });
     });
   },
+
   register(req, res) {
     const user = req.body;
+    
+    if (!user.role) {
+      user.role = 'user';
+    }
+
     User.create(user, (err, data) => {
       if (err) {
         return res.status(501).json({
@@ -97,12 +116,13 @@ module.exports = {
       } else {
         return res.status(201).json({
           success: true,
-          message: 'Creado el Usuario',
+          message: 'Usuario creado correctamente',
           data: data
         });
       }
     });
   },
+
   getUserUpdate(req, res) {
     const user = req.body;
     User.update(user, (err, data) => {
@@ -120,6 +140,7 @@ module.exports = {
       });
     });
   },
+
   getUserDelete(req, res) {
     const id = req.params.id;
     User.delete(id, (err, data) => {
@@ -137,4 +158,4 @@ module.exports = {
       });
     });
   }
-}
+};
