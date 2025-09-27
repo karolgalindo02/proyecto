@@ -62,10 +62,30 @@ _Herramientas y librerias que usamos dentro del proyecto_
 
 ## Pruebas con Postman APIREST 👾
 
-![imagen]()
+* _API Tareas_
 
-![imagen]()
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/GET%20Task.png)
 
-![imagen]()
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/POST%20taskCreate.png)
 
-![imagen]()
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/PUT%20taskUpdate.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/DEL%20taskDelete.png)
+
+
+* _API Proyectos_
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/GET%20project.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/POST%20projectCreate.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/PUT%20projectUpdate.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/DEL%20projectDelete.png)
+
+
+## FRONTEND MOCKUP 📝
+
+_En proceso de integración._
+https://github.com/karolgalindo02/front-apptakio
+
