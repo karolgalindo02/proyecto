@@ -1,0 +1,1807 @@
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||--------------------------------------------------------------------------- REACT NATIVE ---------------------------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||                                                                                                                                                                    |||
+||| --  01. ENTORNO DE DESARROLLO                                                                                                                                      |||
+||| --  02. ESTRUCTURA DEL PROYECTO                                                                                                                                    |||
+||| --  03. VISTA DEL FORMULARIO DE REGISTRO                                                                                                                           |||
+||| --  04. VISTA DEL FORMULARIO DE INICIO DE SESIÓN                                                                                                                   |||
+|||                                                                                                                                                                    |||
+||| --  ANEXOS: TENER EN CUENTA                                                                                                                                        |||
+||| --          AX_01.  Subir el Proyecto a Github                                                                                                                     |||
+||| --          AX_02.  Clonar un proyecto de Github                                                                                                                   |||
+||| --          AX_03.  Cambiar los puertos de 'Apache' en 'XAMPP'                                                                                                     |||
+||| --          AX_04.  Cambiar los puertos de 'MySQL' en 'XAMPP'                                                                                                      |||
+||| --          AX_05.  Puesta en Marcha del Proyecto                                                                                                                  |||
+|||                                                                                                                                                                    |||
+||| -- AUTOR:           ADAPTACIÓN hecha por el Instructor ALBEIRO RAMOS. SENA, 2025; del Taller CORREGIDO por el Instructor MAURICIO LARA. SENA, 2024;                |||
+|||                     elaborado por el Instructor MARCO LEÓN MORA. SENA, 2023.                                                                                       |||
+|||                                                                                                                                                                    |||
+||| -- BIBLIOGRAFÍA:    CORREGIDO:  https://github.com/ProfeAlbeiro/react_native/blob/main/sources/docs/taller_react_native.docx                                       |||
+|||                     ORIGINAL:   https://github.com/ProfeAlbeiro/react_native/blob/main/sources/docs/info_back/taller%20React%20Native_1.docx                       |||
+|||                                                                                                                                                                    |||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||                                                                                                                                                                    |||
+||| --  01. ENTORNO DE DESARROLLO                                                                                                                                      |||
+||| --      01.01.  Instalar Visual Studio Code                                                                                                                        |||
+||| --      01.02.  Instalar Node Js                                                                                                                                   |||
+||| --      01.03.  Modificar Directivas en PowerShell                                                                                                                 |||
+||| --      01.04.  Instalar XAMPP                                                                                                                                     |||
+||| --      01.05.  Instalar Workbench                                                                                                                                 |||
+||| --      01.06.  Instalar Postman                                                                                                                                   |||
+||| --      01.07.  Instalar Git                                                                                                                                       |||
+||| --      01.08.  Crear cuenta en 'Github'                                                                                                                           |||
+||| --      01.09.  Instalar Android Studio                                                                                                                            |||
+||| --      01.10.  Configurar las 'Variables de entorno del sistema'                                                                                                  |||
+||| --      01.11.  Crear el Emulador en Android Studio                                                                                                                |||
+||| --      01.12.  Instalar Expo CLI                                                                                                                                  |||
+||| --  02. ESTRUCTURA DEL PROYECTO                                                                                                                                    |||
+||| --      02.01.  Crear la carpeta raiz del proyecto                                                                                                                 |||
+||| --      02.02.  Ejecutar 'frontend' en el emulador de Android                                                                                                      |||
+||| --      02.03.  Ejecutar 'frontend' en un dispositivo físico Android                                                                                               |||
+||| --      02.04.  Modificar el mensaje de inicio del proyecto en 'frontend/App.tsx'                                                                                  |||
+||| --      02.05.  Instalar otras dependencias                                                                                                                        |||
+||| --      02.06.  Crear la estructura de carpetas y los archivos del proyecto                                                                                        |||
+||| --  03. VISTA DEL FORMULARIO DE REGISTRO                                                                                                                           |||
+||| --      03.01.  Codificar los estilos globales 'frontend/src/presentation/theme/AppTheme.tsx'                                                                      |||
+||| --      03.02.  Codificar el componente para los controles de 'Texto' en 'frontend/src/presentation/components/CustomTextInput.tsx'                                |||
+||| --      03.03.  Codificar el componente para el control de 'Registro' en 'frontend/src/presentation/components/RoundedButton.tsx'                                  |||
+||| --      03.04.  Codificar los estilos del formulario de registro de 'frontend/src/presentation/views/register/Styles.tsx'                                          |||
+||| --      03.05.  Codificar los estados de los controles del formulario de 'registro' en 'frontend/src/presentation/views/register/ViewModel.tsx'                    |||
+||| --      03.06.  Codificar formulario de registro en 'frontend/src/presentation/views/register/Register.tsx'                                                        |||
+||| --      03.07.  Modificar la raíz del proyecto en 'frontend/App.tsx'                                                                                               |||
+||| --  04. VISTA DEL FORMULARIO DE INICIO DE SESIÓN                                                                                                                   |||
+||| --      04.01.  Codificar los estilos del formulario de inicio de sesión de 'frontend/src/presentation/views/home/Styles.tsx'                                      |||
+||| --      04.02.  Codificar los estados de los controles del formulario de inicio de sesión en 'frontend/src/presentation/views/home/ViewModel.tsx'                  |||
+||| --      04.03.  Codificar formulario de inicio de sesión en 'frontend/src/presentation/views/home/Home.tsx'                                                        |||
+||| --      04.04.  Modificar la raíz del proyecto en 'frontend/App.tsx'                                                                                               |||
+|||                                                                                                                                                                    |||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||-------------------------------------------------------------------- 01. ENTORNO DE DESARROLLO ---------------------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.01.  Instalar Visual Studio Code: --------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Descargar 'Visual Studio Code': https://code.visualstudio.com/download.
+
+            02. Instalar Visual Studio Code.
+
+                    ⦿   En el asistente de instalación dejar marcado:   ☑ 'Agregar PATH…'.
+
+            03. Abrir Visual Studio Code.
+
+            04. Instalar las siguientes extensiones en Visual Studio Code:
+
+                    ⦿   Material Icon Theme
+                    ⦿   ES7 React/Redux/React-Native snippets
+                    ⦿   Simple React Snippets
+                    ⦿   Auto Close Tag
+                    ⦿   Paste JSON as Code
+                    ⦿   TypeScript importer
+
+            05. Abrir una 'Terminal' en Visual Studio Code:
+
+                    ⦿   'Terminal / New Terminal' ó 'Ctrl + Shift + ñ'
+                    ⦿   Verificar que sea 'pwsh' o 'powershell', de lo contrario, hay que cambiarla
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.02.  Instalar Node Js: -------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Descargar 'node.js': https://nodejs.org/es/.
+
+            02. Instalar node.js.
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.03.  Modificar Directivas en PowerShell: -------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Abrir el PowerShell de Windows
+            
+            02. Ejecutar el siguiente comando
+
+                    ⦿   PS C:\..\..> Get-ExecutionPolicy
+                    ⦿   Restricted
+
+            03. Si aparece 'Restricted', hay que cambiarla a 'Unrestricted' de la siguiente forma:
+
+                    ⦿   PS C:\..\..> Set-ExecutionPolicy -Scope CurrentUser
+
+                          cmdlet Set-ExecutionPolicy en la posición 1 de la canalización de comandos
+                          Proporcione valores para los parámetros siguientes:
+                          ExecutionPolicy: Unrestricted
+
+            04. Verificar la versión de 'node' y 'npm':
+
+                    ⦿   PS C:\..\..> node --version
+                    ⦿   PS C:\..\..> npm --version
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.04.  Instalar XAMPP: ---------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Descargar 'XAMPP': https://www.apachefriends.org/es/download.html.
+
+            02. Instalar XAMPP.
+
+            03. Abrir el 'XAMPP Control Panel' y ejecutar los servicios de 'Apache' y 'MySQL'.
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  NOTA:   
+                    
+                    ⦿   Verificar que los puertos sean: En Apache (:80) y de MySQL (:3306).
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.05.  Instalar Workbench: -----------------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Descargar 'Workbench': https://dev.mysql.com/downloads/workbench/.
+
+            02. Instalar Workbench.
+
+            03. Abrir Workbench.
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.06.  Instalar Postman: -------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Descargar 'Postman': https://www.postman.com/downloads/.
+
+            02. Instalar Postman.
+            
+            03. Abrir Postman.
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.07.  Instalar Git: -----------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Descargar 'Git': https://git-scm.com/downloads.
+
+            02. Instalar Git.
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.08.  Crear cuenta en 'Github': -----------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Ingresar 'Github': https://github.com/.
+
+            02. Seguir los pasos de creación de la cuenta.
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.09.  Instalar Android Studio: ------------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Descargar 'Android Studio': https://developer.android.com/studio?hl=es-419.
+
+                    ⦿   Descargar la versión más reciente.
+
+            02. Instalar Android Studio.
+
+                    ⦿   Dejar habilitado:   ☑ 'Android Virtual Device'.
+                    ⦿   Dar clic a 'Don't send' / 'Next' / 'Next' / '☑ Acepto' / 'Finalizar'.
+
+            NOTA:   ⦿   Si la instalación no sale como se espera porque hay una versión de Android Studio instalada, revise el siguiente enlace para
+                         desinstalarlo totalmente y repita los pasos 01 y 02:
+
+                            https://blog.buhoos.com/como-desinstalar-completamente-android-studio-de-windows-10/
+
+                    ⦿   En caso que los archivos y/o carpetas no se dejen eliminar, descargue el siguiente programa para eliminar carpetas o archivos.
+
+                            https://www.iobit.com/es/recommend/imffree.php?name=iobit_unlocker
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.10.  Configurar las 'Variables de entorno del sistema': ----------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Buscar en el menú Windows 'Editar las variables de entorno del sistema' para enrutar al SDK de Java y Android SDK
+
+            02. Dar clic en 'Variables de entorno ...'
+
+            03. En las 'Variables de usuario ...' dar clic en 'Nueva ...'
+
+                    ⦿   Nombre de la variable:  JAVA_HOME
+                    ⦿   Valor de la variable:   'Examinar Directorio': C:\Program Files\Android\Android Studio\jbr\bin
+
+                    ⦿   Nombre de la variable:  ANDROID_HOME
+                    ⦿   Valor de la variable:   'Examinar Directorio': C:\Users\{usuario_del_sistema}\AppData\Local\Android\Sdk
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.11.  Crear el Emulador en Android Studio: ------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Abrir Android Studio
+
+            02. Seleccionar 'More Actions / Virtual Device Manager'
+
+            03. Seleccionar la opción '(+) Create Virtual Device' y buscar un emulador que tenga los servicios de Google Service para probar las
+                aplicaciones sin restricciones
+
+            04. Seleccionar, por ejemplo, 'Pixel 4' con el icono de Play Store
+
+            05. Dar click a 'Finish / Finish'.
+
+            07. Ejecutar el Emulador dando clic en la punta de flecha (columna 'Actions', la primera vez demorará más tiempo)
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 01.12.  Instalar Expo CLI: ------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            Expo CLI es una interfaz de línea de comandos que permite montar un servidor para correr el proyecto localmente, construir proyectos
+            sencillos y publicarlos. Para más información:
+
+                    ⦿   https://docs.expo.dev/more/expo-cli/
+                    ⦿   https://gist.github.com/mrcodedev/37b463ae63c0c1d762e6efaf4c26af4f
+                    ⦿   https://blog.expo.dev/the-new-expo-cli-f4250d8e3421
+
+            01. En la terminal de 'Visual Studio Code', instalar Expo CLI:
+
+                    ⦿   PS C:\..\react_native> npm install -g expo-cli exp
+
+            02. Verificar la versión de expo CLI en la terminal de 'Visual Studio Code':
+
+                    ⦿   PS C:\..\react_native> expo  --version
+
+                    ⦿   Si ya tiene un proyecto, reemplace en el archivo “package.json”:
+
+                            ⦿   "scripts":{ "start": "expo start"}, por "scripts":{ "start": "npx expo start"}
+                            ⦿   "scripts":{ "start": "expo start"}, por "scripts":{ "start": "npx expo start"}
+
+                    ⦿   En caso de existir problema, puede desinstalar expo CLI en la terminal de 'Visual Studio Code':
+
+                            ⦿   PS C:\..\react_native> npm uninstall -g expo-cli
+
+                    ⦿   Con el objeto de verificar posibles conflictos de puertos, que se puedan presentar más adelante en el desarrollo de la App,
+                         puede listar los puertos utilizados en Windows desde la consola, con el comando 'netstat -ano'.
+
+
+
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||------------------------------------------------------------------- 02. ESTRUCTURA DEL PROYECTO --------------------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 02.01.  Crear la carpeta raiz del proyecto: -------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Crear en Windows una carpeta denominada 'proyecto'.
+            
+            02. Abrir la carpeta 'proyecto' en Visual Studio Code.
+
+            03. En la terminal de 'Visual Studio Code', crear el proyecto:
+
+                    ⦿   PS PS C:\..\> npx create-expo-app --template
+
+                         Need to install the following packages:
+                         create-expo-app@3.2.0
+                         Ok to proceed? (y) y
+
+                         √ Choose a template: » Blank (TypeScript)
+                         √ What is your app named? ... frontend
+                         √ Downloaded and extracted project files.
+                         > npm install
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  NOTA:   
+                    
+                    ⦿  Para obtener los comandos TypeScript a ejecutar: https://reactnative.dev/docs/typescript.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 02.02.  Ejecutar 'frontend' en el emulador de Android: --------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. En la Terminal de 'Visual Studio Code' digitar lo siguiente:
+
+                    ⦿   PS C:\..\..> cd frontend
+                    ⦿   PS C:\..\frontend> npm run android
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  NOTA:   
+                    
+                    ⦿   Tener en cuenta los siguientes comandos de 'Expo Go'. En la Terminal de 'Visual Studio Code' puede ejecutar:
+
+                              › Using Expo Go
+                              › Press s │ switch to development build
+
+                              › Press a │ open Android
+                              › Press w │ open web
+
+                              › Press j │ open debugger
+                              › Press r │ reload app
+                              › Press m │ toggle menu
+                              › shift+m │ more tools
+                              › Press o │ open project code in your editor
+
+                              › Press ? │ show all commands
+
+                              Logs for your project will appear below. Press Ctrl+C to exit.
+
+                              › Using Expo Go
+                              › Press s │ switch to development build
+
+                              › Press a │ open Android
+                              › shift+a │ select an Android device or emulator
+                              › Press w │ open web
+
+                              › Press r │ reload app
+                              › Press j │ open debugger
+                              › Press m │ toggle menu
+                              › shift+m │ more tools
+                              › Press o │ open project code in your editor
+                              › Press c │ show project QR
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+            02. Cambiar el nombre de la terminal a 'frontend', seleccionándola en la parte inferior derecha y presionando F2 / Rename...
+            
+            03. Cambiar el color de la terminal 'frontend', dando click derecho / Chage Color... / Seleccionar el color
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 02.03.  Ejecutar 'frontend' en un dispositivo físico Android: -------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. En el dispositivo de Android, ir a la tienda de Play Store, buscar 'Expo go' e instalarlo.
+
+            02. Abrir la aplicación 'Expo Go' en el dispositivo.
+
+            03. Escanear el 'código QR' con el dispositivo. Los dos equipos deben estar en la misma red WiFi.
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 02.04.  Modificar el mensaje de inicio del proyecto en 'frontend/App.tsx': ------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { StatusBar } from 'expo-status-bar';
+                    02   import { StyleSheet, Text, View } from 'react-native';
+                    03
+                    04   export default function App() {
+                    05     return (
+                    06       <View style={styles.container}>
+                    07         <Text>¡Hola Mundo!</Text>
+                    08         <StatusBar style="auto" />
+                    09       </View>
+                    10     );
+                    11   }
+                    12
+                    13   const styles = StyleSheet.create({
+                    14     container: {
+                    15       flex: 1,
+                    16       backgroundColor: '#fff',
+                    17       alignItems: 'center',
+                    18       justifyContent: 'center',
+                    19     },
+                    20   });
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   El módulo principal, que se ejecuta al lanzar la aplicación es 'App.tsx', donde se encuentran las 'View' que son las diferentes
+                        pantallas donde se realiza la navegación. Dentro de los 'View' hay componentes. Los 'View' se relacionan con 'styles', que son 
+                        los estilos aplicados a cada vista.            
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 02.05.  Instalar otras dependencias: --------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Abrir otra Terminal de 'Visual Studio Code' (llamarla 'commands' y colocar el color que se desee) digitar lo siguiente:
+
+                    ⦿   PS C:\..\..> cd frontend
+                    ⦿   PS C:\..\frontend> npm install -g react-native-cli
+                    ⦿   PS C:\..\frontend> npm install @react-navigation/native @react-navigation/native-stack
+                    ⦿   PS C:\..\frontend> npm i @react-navigation/stack
+                    ⦿   PS C:\..\frontend> npm i axios
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 02.06.  Crear la estructura de carpetas y los archivos del proyecto: ------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+                                                                                                                                                      
+                                                                                                                                                      # C = Carpetas
+                                                                                                                                                      # A = Archivos
+
+                    proyecto/                                                           # C. Proyecto móvil en React Native.
+                    └── frontend/                                                       # C. Carpeta raíz del proyecto en React Native.
+        (NO CREAR)      ├── .expo/                                                      # C. Configuraciones del proyecto utilizados por la herramienta 'Expo'
+        (NO CREAR)      ├── assets/                                                     # C. Recursos estáticos (imágenes, fuentes).
+        (NO CREAR)      ├── node_modules/                                               # C. Dependencias (librerías) instaladas para el frontend.
+                        ├── src/                                                        # C. Carpetas y archivos de la aplicación React Native.
+                        │   ├── data/                                                   # C. Capa para obtención y manipulación de datos.
+                        │   │   ├── repositories/                                       # C. Interfaces para acceder a diferentes fuentes de datos.
+                        │   │   │   ├── AuthRepository.tsx                              # A. Lógica para la autenticación.
+                        │   │   │   └── UserLocalRepository.tsx                         # A. Gestión de datos del usuario a nivel local (AsyncStorage).
+                        │   │   └── sources/                                            # C. Implementaciones concretas de las fuentes de datos (local, remota).
+                        │   │       ├── local/                                          # C. Lógica para acceder a datos almacenados localmente.
+                        │   │       │   └── LocalStorage.tsx                            # A. Interactua con el almacenamiento local (AsyncStorage).
+                        │   │       └── remote/                                         # C. Interactua con la API del backend (clientes API).
+                        │   │           ├── api/                                        # C. Clientes o servicios para realizar llamadas a la API.
+                        │   │           │   └── ApiDelivery.tsx                         # A. Cliente para interactuar con la API relacionada con "delivery".
+                        │   │           └── models/                                     # C. Estructuras de datos que se reciben de la API.
+                        │   │               └── ResponseApiDelivery.tsx                 # A. Tipo de la respuesta de la API de "delivery".
+                        │   ├── domain/                                                 # C. Lógica de negocio y entidades del dominio (independiente).
+                        │   │   ├── entities/                                           # C. Estructuras de los objetos del negocio (User).
+                        │   │   │   └── User.tsx                                        # A. Entidad de usuario con sus propiedades (nombre, email).
+                        │   │   ├── repositories/                                       # C. Interfaces para acceder a los datos (implementado en Data).
+                        │   │   │   ├── AuthRepository.tsx                              # A. Interfaz para las operaciones de autenticación.
+                        │   │   │   └── UserLocalRepository.tsx                         # A. Interfaz para la gestión de datos locales del usuario.
+                        │   │   └── useCases/                                           # C. Lógica de negocio específica de la aplicación (dominio/data).
+                        │   │       ├── auth/                                           # C. Casos de uso relacionados con la autenticación (Login, Register).
+                        │   │       │   ├── LoginAuth.tsx                               # A. Lógica para el proceso de inicio de sesión del usuario.
+                        │   │       │   └── RegisterAuth.tsx                            # A. Lógica para el proceso de registro de nuevos usuarios.
+                        │   │       └── userLocal/                                      # C. Casos de uso relacionados con la gestión local del usuario.
+                        │   │           ├── GetUserLocal.tsx                            # A. Obtener información del usuario almacenado localmente.
+                        │   │           ├── RemoveUserLocal.tsx                         # A. Eliminar información del usuario almacenado localmente.
+                        │   │           └── SaveUserLocal.tsx                           # A. Guardar la información del usuario localmente.
+                        │   └── presentation/                                           # C. Capa de la interfaz y presentación de datos (components, views).
+                        │       ├── components/                                         # C. Componentes de interfaz de usuario (inputs, buttons).
+                        │       │   ├── CustomTextInput.tsx                             # A. Componente de entrada de texto personalizado con estilos.
+                        │       │   └── RoundedButton.tsx                               # A. Componente de botón con estilos de bordes redondeados.
+                        │       ├── hooks/                                              # C. Hooks personalizados para lógica de presentación reutilizable.
+                        │       │   └── useUserLocal.tsx                                # A. Hook personalizado para manipular la información local del usuario.
+                        │       ├── theme/                                              # C. Estilos y la temática visual general de la aplicación.
+                        │       │   └── AppTheme.tsx                                    # A. Paleta de colores, tipografía y estilos consistentes.
+                        │       └── views/                                              # C. Pantallas o vistas principales de la aplicación.
+                        │           ├── home/                                           # C. Archivos relacionados con la pantalla principal de la aplicación.
+                        │           │   ├── Home.tsx                                    # A. Componente principal de la pantalla inicio (Home).
+                        │           │   ├── Styles.tsx                                  # A. Estilos específicos para los componentes de la pantalla inicio.
+                        │           │   └── ViewModel.tsx                               # A. Lógica de presentación para la pantalla inicio.
+                        │           ├── profile/                                        # C. Archivos relacionados con la pantalla de perfil del usuario.
+                        │           │   └── info/                                       # C. Archivos relacionados con la información del perfil del usuario.
+                        │           │       ├── ProfileInfo.tsx                         # A. Componente para mostrar la información del perfil del usuario.
+                        │           │       └── ViewModel.tsx                           # A. Lógica de presentación para la información del perfil del usuario.
+                        │           └── register/                                       # C. Archivos relacionados con la pantalla de registro de usuarios.
+                        │               ├── Register.tsx                                # A. Componente principal de la pantalla de registro de usuarios.
+                        │               ├── Styles.tsx                                  # A. Estilos específicos para los componentes de la pantalla de registro.
+                        │               └── ViewModel.tsx                               # A. Lógica de presentación para la pantalla de registro de usuarios.
+        (NO CREAR)      ├── .gitignore                                                  # A. Archivos y carpetas que Git debe ignorar (node_modules, etc.).
+        (NO CREAR)      ├── app.json                                                    # A. Configuración utilizada por Expo para configurar la app.
+        (NO CREAR)      ├── App.tsx                                                     # A. Raíz de la aplicación React Native (punto de entrada UI).
+        (NO CREAR)      ├── index.ts                                                    # A. Punto de entrada para la aplicación React Native (fuera de Expo).
+        (NO CREAR)      ├── package-lock.json                                           # A. Registra las versiones exactas de las dependencias del frontend.
+        (NO CREAR)      ├── package.json                                                # A. Manifiesto del proyecto frontend (nombre, dependencias, scripts).
+        (NO CREAR)      └── tsconfig.json                                               # A. Configuración para el compilador de TypeScript.
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  NOTA:   
+                    
+                    ⦿  Descargar de https://github.com/ProfeAlbeiro/06_software_mobil/tree/main/02_hibrido/react_native/resources/assets las imágenes 
+                        del proyecto, en la carpeta 'assets' del 'proyecto/frontend'.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+
+
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||--------------------------------------------------------------- 03. VISTA DEL FORMULARIO DE REGISTRO ---------------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 03.01.  Codificar los estilos globales 'frontend/src/presentation/theme/AppTheme.tsx': ------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   export const MyColors = {
+                    02     background: '#EEEEEE',
+                    03     primary: '#F4991A',
+                    04     secondary: '# E14D2A',
+                    05   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 03.02.  Codificar el componente para los controles de 'Texto' en 'frontend/src/presentation/components/CustomTextInput.tsx': ----------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import React from 'react';
+                    02   import { StyleSheet, View, Image, TextInput, KeyboardType } from 'react-native';
+                    03 
+                    04   interface Props {
+                    05     image: any;
+                    06     placeholder: string;
+                    07     value: string;
+                    08     keyboardType: KeyboardType;
+                    09     secureTextEntry?: boolean;
+                    10     property: string, onChangeText: (property: string, value:any) => void,
+                    11   }
+                    12 
+                    13   export const CustomTextInput = ({
+                    14     image,
+                    15     placeholder,
+                    16     value,
+                    17     keyboardType,
+                    18     secureTextEntry = false,
+                    19     property,
+                    20     onChangeText
+                    21   }: Props) => {
+                    22     return (
+                    23       <View style = { styles.formInput }>
+                    24         <Image style = { styles.formIcon } source = { image } />
+                    25         <TextInput style = { styles.formTextInput }
+                    26           placeholder = { placeholder }
+                    27           keyboardType = { keyboardType }
+                    28           value = { value }
+                    29           onChangeText = { text => onChangeText(property, text) }
+                    30           secureTextEntry = { secureTextEntry }
+                    31         />
+                    32       </View>
+                    33     )
+                    34   }
+                    35 
+                    36   const styles = StyleSheet.create({
+                    37     formIcon: {
+                    38       width: 25,
+                    39       height: 25,
+                    40       marginTop: 5,
+                    41     },
+                    42     formInput: {
+                    43       flexDirection: 'row',
+                    44       marginTop: 30,
+                    45     },
+                    46     formTextInput: {
+                    47       flex: 1,
+                    48       borderBottomWidth: 1,
+                    49       borderBottomColor: '#AAAAAA',
+                    50       marginLeft: 15,
+                    51     }
+                    52   })
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 03.03.  Codificar el componente para el control de 'Registro' en 'frontend/src/presentation/components/RoundedButton.tsx': ------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import React from 'react'
+                    02   import { TouchableOpacity, Text, StyleSheet } from 'react-native'
+                    03   import { MyColors } from '../theme/AppTheme';
+                    04 
+                    05   interface Props {
+                    06     text: string;
+                    07     onPress: () => void,
+                    08   }
+                    09 
+                    10   export const RoundedButton = ({ text, onPress}: Props) => {
+                    11     return (
+                    12       <TouchableOpacity
+                    13         style={styles.RoundedButton}
+                    14         onPress={() => onPress()}
+                    15       >
+                    16         <Text style={styles.textButton} >{ text}</Text>
+                    17       </TouchableOpacity>
+                    18     )
+                    19   }
+                    20 
+                    21   const styles = StyleSheet.create({
+                    22     RoundedButton: {
+                    23       width: '100%',
+                    24       height: 40,
+                    25       backgroundColor: MyColors.primary,
+                    26       alignItems: 'center',
+                    27       justifyContent: 'center',
+                    28       borderRadius: 10,
+                    29     },
+                    30     textButton: {
+                    31       color: 'white',
+                    32     }
+                    33   });
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 03.04.  Codificar los estilos del formulario de registro de 'frontend/src/presentation/views/register/Styles.tsx': --------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { StyleSheet } from "react-native";
+                    02 
+                    03   const RegisterStyles = StyleSheet.create({
+                    04     container: {
+                    05       flex: 1,
+                    06       backgroundColor: 'black',
+                    07     },
+                    08     imageBackground: {
+                    09       width: '100%',
+                    10       height: '100%',
+                    11       opacity: 0.7,
+                    12       bottom: '30%',
+                    13     },
+                    14     logoContainer: {
+                    15       position: 'absolute',
+                    16       alignSelf: 'center',
+                    17       top: '5%',
+                    18       alignItems: 'center',
+                    19     },
+                    20     logoImage: {
+                    21       width: 100,
+                    22       height: 100,
+                    23     },
+                    24     logoText: {
+                    25       color: 'white',
+                    26       textAlign: 'center',
+                    27       fontSize: 20,
+                    28       marginTop: 10,
+                    29       fontWeight: 'bold',
+                    30     },
+                    31     form: {
+                    32       width: '100%',
+                    33       height: '70%',
+                    34       backgroundColor: 'white',
+                    35       position: 'absolute',
+                    36       bottom: 0,
+                    37       borderTopLeftRadius: 40,
+                    38       borderTopRightRadius: 40,
+                    39       padding: 30,
+                    40     },
+                    41     formText: {
+                    42       fontWeight: 'bold',
+                    43       fontSize: 16,
+                    44     },
+                    45     formIcon: {
+                    46       width: 25,
+                    47       height: 25,
+                    48       marginTop: 5,
+                    49     },
+                    50     formInput: {
+                    51       flexDirection: 'row',
+                    52       marginTop: 25,
+                    53     },
+                    54     formTextInput: {
+                    55       flex: 1,
+                    56         borderBottomWidth: 1,
+                    57         borderBottomColor: '#AAAAAA',
+                    58         marginLeft: 15,
+                    59     },
+                    60     formRegister: {
+                    61       flexDirection: 'row',
+                    62       justifyContent: 'center',
+                    63       marginTop: 10,
+                    64     },
+                    65     formRegisterText: {
+                    66       fontStyle: 'italic',
+                    67       color: 'orange',
+                    68       borderBottomWidth: 1,
+                    69       borderBottomColor: 'orange',
+                    70       fontWeight: 'bold',
+                    71       marginLeft: 10,
+                    72     },
+                    73   });
+                    75 
+                    76   export default RegisterStyles;
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 03.05.  Codificar los estados de los controles del formulario de 'registro' en 'frontend/src/presentation/views/register/ViewModel.tsx': ----------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { useState } from "react";
+                    02 
+                    03   const RegisterViewModel = () => {
+                    04     const [values, setValues] = useState({
+                    05       name: '',
+                    06       lastname: '',
+                    07       phone: '',
+                    08       email: '',
+                    09       password: '',
+                    10       confirmPassword: '',
+                    11     });
+                    12     const onChange = (property: string, value: any) => {
+                    13       setValues({ ...values, [property]: value });
+                    14     };
+                    15     const register = () => {
+                    16       console.log(JSON.stringify(values));
+                    17     };
+                    18     return {
+                    19       ...values,
+                    20       onChange,
+                    21       register
+                    22     };
+                    23   }
+                    24 
+                    25   export default RegisterViewModel;
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 03.06.  Codificar formulario de registro en 'frontend/src/presentation/views/register/Register.tsx': ----------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import React from 'react';
+                    02   import styles from './Styles';
+                    03   import { Text, View, Image, ScrollView } from 'react-native';
+                    04   import { CustomTextInput } from '../../components/CustomTextInput';
+                    05   import { RoundedButton } from '../../components/RoundedButton';
+                    06   import useViewModel from './ViewModel';
+                    07 
+                    08   export const RegisterScreen = () => {
+                    09 
+                    10     const {name, lastname, phone, email, password, confirmPassword, onChange, register} = useViewModel();
+                    11 
+                    12     return (
+                    13       <View style={styles.container}>
+                    14         <Image
+                    15           source={require('../../../../assets/chef.jpg')}
+                    16           style={styles.imageBackground}
+                    17         />
+                    18         <View style={styles.logoContainer}>
+                    19           <Image
+                    20             source={require('../../../../assets/logo.png')}
+                    21             style={styles.logoImage}
+                    22           />
+                    23           <Text style={styles.logoText}>FOOD APP</Text>
+                    24         </View>
+                    25         <View style={styles.form}>
+                    26           <ScrollView>
+                    27             <Text style={styles.formText}>REGÍSTRATE</Text>
+                    28             <CustomTextInput
+                    29               image = {require('../../../../assets/user.png')}
+                    30               placeholder = 'Nombres'
+                    31               keyboardType = 'default'
+                    32               property = 'name'
+                    33               onChangeText = { onChange }
+                    34               value = { name }
+                    35             />
+                    36             <CustomTextInput
+                    37             image = {require('../../../../assets/my_user.png')}
+                    38               placeholder = 'Apellidos'
+                    39               keyboardType = 'default'
+                    40               property = 'lastname'
+                    41               onChangeText = { onChange }
+                    42               value = { lastname }
+                    43             />
+                    44             <CustomTextInput
+                    45               image = {require('../../../../assets/email.png')}
+                    46               placeholder = 'Correo Electrónico'
+                    47               keyboardType = 'email-address'
+                    48               property = 'email'
+                    49               onChangeText = { onChange }
+                    50               value = { email }
+                    51             />
+                    52             <CustomTextInput
+                    53               image = {require('../../../../assets/phone.png')}
+                    54               placeholder = 'Teléfono'
+                    55               keyboardType = 'numeric'
+                    56               property = 'phone'
+                    57               onChangeText = { onChange }
+                    58               value = { phone }
+                    59             />
+                    60             <CustomTextInput
+                    61               image = {require('../../../../assets/password.png')}
+                    62               placeholder = 'Contraseña'
+                    63               keyboardType = 'default'
+                    64               property = 'password'
+                    65               onChangeText = { onChange }
+                    66               value = { password }
+                    67               secureTextEntry = { true }
+                    68             />
+                    69             <CustomTextInput
+                    70               image = {require('../../../../assets/confirm_password.png')}
+                    71               placeholder = 'Confirmar Contraseña'
+                    72               keyboardType = 'default'
+                    73               property = 'confirmPassword'
+                    74               onChangeText = { onChange }
+                    75               value = { confirmPassword }
+                    76               secureTextEntry = { true }
+                    77             />
+                    78             <View style={{ marginTop: 10 }}>
+                    79               <RoundedButton text='CONFIRMAR' onPress={ () => register() } />
+                    80             </View>
+                    81           </ScrollView>
+                    82         </View>
+                    83       </View>
+                    84     );
+                    85     
+                    86   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 03.07.  Modificar la raíz del proyecto en 'frontend/App.tsx': -------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import * as React from 'react';
+                    02   import { NavigationContainer } from '@react-navigation/native';
+                    03   import { createNativeStackNavigator } from '@react-navigation/native-stack';
+                    04   import { RegisterScreen } from './src/presentation/views/register/Register';
+                    05 
+                    06   export type RootStackParamList = {
+                    07     RegisterScreen: undefined;
+                    08   }
+                    09 
+                    10   const Stack = createNativeStackNavigator <RootStackParamList> ();
+                    11 
+                    12   const App = () => {
+                    13     return (
+                    14       <NavigationContainer>
+                    15         <Stack.Navigator screenOptions={{headerShown: false}}>        
+                    16           <Stack.Screen
+                    17             name="RegisterScreen"
+                    18             component={RegisterScreen}
+                    19             options={{
+                    20               headerShown: true,
+                    21               title: "Registro",
+                    22             }}
+                    23           />
+                    24         </Stack.Navigator>
+                    25       </NavigationContainer>
+                    26     );
+                    27   };
+                    28 
+                    29   export default App;
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+
+
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||----------------------------------------------------------- 04. VISTA DEL FORMULARIO DE INICIO DE SESIÓN -----------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 04.01.  Codificar los estilos del formulario de inicio de sesión de 'frontend/src/presentation/views/home/Styles.tsx': ----------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { StyleSheet } from "react-native";
+                    02 
+                    03   const HomeStyles = StyleSheet.create({
+                    04     container: {
+                    05       flex: 1,
+                    06       backgroundColor: 'black',
+                    07     },
+                    08     imageBackground: {
+                    09       width: '100%',
+                    10       height: '100%',
+                    11       opacity: 0.7,
+                    12       bottom: '30%',
+                    13     },
+                    14     logoContainer: {
+                    15       position: 'absolute',
+                    16       alignSelf: 'center',
+                    17       top: '15%',
+                    18     },
+                    19     logoImage: {
+                    20       width: 100,
+                    21       height: 100,
+                    22     },
+                    23     logoText: {
+                    24       color: 'white',
+                    25       textAlign: 'center',
+                    26       fontSize: 20,
+                    27       marginTop: 10,
+                    28       fontWeight: 'bold',
+                    29     },
+                    30     form: {
+                    31       width: '100%',
+                    32       height: '40%',
+                    33       backgroundColor: 'white',
+                    34       position: 'absolute',
+                    35       bottom: 0,
+                    36       borderTopLeftRadius: 40,
+                    37       borderTopRightRadius: 40,
+                    38       padding: 30,
+                    39     },
+                    40     formText: {
+                    41       fontWeight: 'bold',
+                    42       fontSize: 16,
+                    43     },
+                    44     formIcon: {
+                    45       width: 25,
+                    46       height: 25,
+                    47       marginTop: 5,
+                    48     },
+                    49     formInput: {
+                    50       flexDirection: 'row',
+                    51       marginTop: 30,
+                    52     },
+                    53     formTextInput: {
+                    54       flex: 1,
+                    55         borderBottomWidth: 1,
+                    56         borderBottomColor: '#AAAAAA',
+                    57         marginLeft: 15,
+                    58     },
+                    59     formRegister: {
+                    60       flexDirection: 'row',
+                    61       justifyContent: 'center',
+                    62       marginTop: 20,
+                    63     },
+                    64     formRegisterText: {
+                    65       fontStyle: 'italic',
+                    66       color: 'orange',
+                    67       borderBottomWidth: 1,
+                    68       borderBottomColor: 'orange',
+                    69       fontWeight: 'bold',
+                    70       marginLeft: 10,
+                    71     },
+                    72   });
+                    73 
+                    74   export default HomeStyles;
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 04.02.  Codificar los estados de los controles del formulario de inicio de sesión en 'frontend/src/presentation/views/home/ViewModel.tsx': --------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { useState } from 'react';
+                    02  
+                    03   const HomeViewModel = () => {
+                    04     const [values, setValues] = useState({
+                    05       email: '',
+                    06       password: '',
+                    07     });
+                    08     const onChange = (property: string, value: any) => {
+                    09       setValues({
+                    10         ...values, [property]: value
+                    11       });
+                    12     }
+                    13     return {
+                    14       ...values,
+                    15       onChange
+                    16     }
+                    17   }
+                    18 
+                    19   export default HomeViewModel;
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 04.03.  Codificar formulario de inicio de sesión en 'frontend/src/presentation/views/home/Home.tsx': ----------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import React from 'react';
+                    02   import styles from './Styles';
+                    03   import { Text, View, Image, TouchableOpacity } from 'react-native';
+                    04   import { RoundedButton } from '../../components/RoundedButton';
+                    05   import { CustomTextInput } from '../../components/CustomTextInput';
+                    06   import { StackNavigationProp } from '@react-navigation/stack';
+                    07   import { RootStackParamList } from '../../../../App';
+                    08   import { useNavigation } from '@react-navigation/native';
+                    09   import  useViewModel  from './ViewModel';
+                    10 
+                    11   export const HomeScreen = () => {
+                    12 
+                    13     const {email, password, onChange} = useViewModel();
+                    14     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+                    15 
+                    16     return (
+                    17       <View style={styles.container}>
+                    18         <Image
+                    19           source={require('../../../../assets/chef.jpg')}
+                    20           style={styles.imageBackground}
+                    21         />
+                    22         <View style={styles.logoContainer}>
+                    23           <Image
+                    24             source={require('../../../../assets/logo.png')}
+                    25             style={styles.logoImage}
+                    26           />
+                    27           <Text style={styles.logoText}>FOOD APP</Text>
+                    28         </View>
+                    29         <View style={styles.form}>
+                    30           <Text style={styles.formText}>INGRESAR</Text>
+                    31           <CustomTextInput
+                    32             image = {require('../../../../assets/email.png')}
+                    33             placeholder = 'Correo Electrónico'
+                    34             keyboardType = 'email-address'
+                    35             property = 'email'
+                    36             onChangeText = { onChange }
+                    37             value = {email}
+                    38           />
+                    39           <CustomTextInput
+                    40             image = {require('../../../../assets/password.png')}
+                    41             placeholder = 'Contraseña'
+                    42             keyboardType = 'default'
+                    43             property = 'password'
+                    44             onChangeText = { onChange }
+                    45             value = {password}
+                    46             secureTextEntry = { true }
+                    47           />
+                    48           <View style={{ marginTop: 30 }}>
+                    49             <RoundedButton text='ENVIAR' onPress={() => {
+                    50               console.log('Email: ' + email);
+                    51               console.log('Password: ' + password);
+                    52             }}/>
+                    53           </View>
+                    54           <View style={styles.formRegister}>
+                    55             <Text>¿No tienes cuenta?</Text>
+                    56             <TouchableOpacity onPress={ () => navigation.navigate('RegisterScreen') }>
+                    57               <Text style={styles.formRegisterText}>Regístrate</Text>
+                    58             </TouchableOpacity>
+                    59           </View>
+                    60         </View>
+                    61       </View>
+                    62     );
+                    63   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 04.04.  Modificar la raíz del proyecto en 'frontend/App.tsx': -------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import * as React from 'react';
+                    02   import { NavigationContainer } from '@react-navigation/native';
+                    03   import { createNativeStackNavigator } from '@react-navigation/native-stack';
+                    04   import { HomeScreen } from './src/presentation/views/home/Home';
+                    05   import { RegisterScreen } from './src/presentation/views/register/Register';
+                    06 
+                    07   export type RootStackParamList = {
+                    08     HomeScreen: undefined;
+                    09     RegisterScreen: undefined;
+                    10   }
+                    11 
+                    12   const Stack = createNativeStackNavigator <RootStackParamList> ();
+                    13 
+                    14   const App = () => {
+                    15     return (
+                    16       <NavigationContainer>
+                    17         <Stack.Navigator screenOptions={{headerShown: false}}>
+                    18           <Stack.Screen
+                    19             name="HomeScreen"
+                    20             component={HomeScreen}
+                    21           />
+                    22           <Stack.Screen
+                    23             name="RegisterScreen"
+                    24             component={RegisterScreen}
+                    25             options={{
+                    26               headerShown: true,
+                    27               title: "Registro",
+                    28             }}
+                    29           />
+                    30         </Stack.Navigator>
+                    31       </NavigationContainer>
+                    32     );
+                    33   };
+                    34 
+                    35   export default App;
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+
+
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||----------------------------------------------------------- 05. REGISTRAR UN USUARIO -----------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 05.01.  Codificar las solicitudes HTTP en 'frontend/src/Data/sources/remote/api/ApiDelivery.tsx': -------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import axios from "axios";
+
+                      const ApiDelivery = axios.create({
+                        baseURL: 'http://192.168.1.77:3000/api',
+                        headers: {
+                          'Content-Type': 'application/json'
+                        }
+                      });
+
+                      export { ApiDelivery }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 05.02.  Modificar los estados del formulario de 'registro' para incluir peticiones HTTP en 'frontend/src/presentation/views/register/ViewModel.tsx': ----------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { useState } from 'react';
+                      import { ApiDelivery } from '../../../data/sources/remote/api/ApiDelivery';
+
+                      const RegisterViewModel = () => {
+                          const [values, setValues] = useState({
+                            name: '',
+                            lastname: '',
+                            phone: '',
+                            email: '',
+                            password: '',
+                            confirmPassword: '',
+                          });
+                          const onChange = (property: string, value: any) => {
+                            setValues({ ...values, [property]: value });
+                          };
+                          const register = async () => {
+                            try {
+                              const response = await ApiDelivery.post('/users/create', values);
+                              console.log('RESPONSE: ' + JSON.stringify(response));
+                            } catch (error) {
+                              console.log('Error: ' + error);
+                            }
+                          };
+                          return {
+                            ...values,
+                            onChange,
+                            register
+                          };
+                      }
+
+                      export default RegisterViewModel;
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 05.03.  Crear un Usuario desde el formulario de registro: -----------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. En la Terminal de 'Visual Studio Code' ejecutar nuevamente el emulador de android:
+                    
+                    ⦿   PS C:\..\frontend> npm run android
+
+            02. Diligenciar el formulario de registro y dar clic a 'CONFIRMAR'
+            
+            03. Verificar las tabla 'users' en la base de datos 'db_node' en http://localhost/phpmyadmin/
+
+
+
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||----------------------------------------------------------- 06. AUTENTICACIÒN -----------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 06.01.  Codificar la interface del modelo de 'usuario' en 'frontend/src/domain/entities/User.tsx': ------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   export interface User {
+                    02     id?: string;
+                    03     name: string;
+                    04     lastname: string;
+                    05     phone: string;
+                    06     email: string;
+                    07     password: string;
+                    08     confirmPassword: string;
+                    09   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 06.02.  Codificar la respuesta de la API en 'frontend/src/data/sources/remote/models/ResponseApiDelivery.tsx': ------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   export interface ResponseApiDelivery {
+                    02     success: boolean;
+                    03     message: string;
+                    04     data?: any;
+                    05     error?: any;
+                    06   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 06.03.  Codificar la lógica de autenticación de usuario en el 'dominio' en 'frontend/src/domain/repositories/AuthRepository.tsx': -----------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { User } from "../entities/User";
+                    02   import { ResponseApiDelivery } from "../../data/sources/remote/models/ResponseApiDelivery";  
+                    03 
+                    04   export interface AuthRepository {
+                    05     register(user: User): Promise<ResponseApiDelivery>;
+                    06   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 06.04.  Codificar la implementación de la autenticación de usuario en la 'data' en 'frontend/src/data/repositories/AuthRepository.tsx': -----------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { AxiosError } from "axios";
+                    02   import { User } from "../../domain/entities/User";
+                    03   import { AuthRepository } from "../../domain/repositories/AuthRepository";
+                    04   import { ApiDelivery } from "../sources/remote/api/ApiDelivery";
+                    05   import { ResponseApiDelivery } from "../sources/remote/models/ResponseApiDelivery";
+                    06 
+                    07   export class AuthRepositoryImpl implements AuthRepository {
+                    08     async register(user: User): Promise<ResponseApiDelivery> {
+                    09       try {
+                    10         const response = await ApiDelivery.post<ResponseApiDelivery>('./users/create', user);
+                    11         return Promise.resolve(response.data);
+                    12       } catch (error) {
+                    13         let e = (error as AxiosError);
+                    14         console.log('Error: ' + JSON.stringify(e.response?.data));
+                    15         const apiError: ResponseApiDelivery = JSON.parse(JSON.stringify(e.response?.data));
+                    16         return Promise.resolve(apiError);
+                    17       }
+                    18     }
+                    19   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 06.05.  Codificar la implementación de la autenticación de registro en 'frontend/src/domain/useCases/auth/RegisterAuth.tsx': ----------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { AuthRepositoryImpl } from "../../../data/repositories/AuthRepository";
+                    02   import { User } from "../../entities/User";
+                    03 
+                    04   const { register } = new AuthRepositoryImpl();
+                    05 
+                    06   export const RegisterAuthUseCase = async (user: User) => {
+                    07       return await register(user);
+                    08   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 06.06.  Modificar los estados del formulario de 'registro' para incluir autenticación en 'frontend/src/presentation/views/register/ViewModel.tsx': ------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { useState } from 'react';
+                    02   import { RegisterAuthUseCase } from '../../../domain/useCases/auth/RegisterAuth';
+                    03 
+                    04   const RegisterViewModel = () => {
+                    05       const [values, setValues] = useState({
+                    06         name: '',
+                    07         lastname: '',
+                    08         phone: '',
+                    09         email: '',
+                    10         password: '',
+                    11         confirmPassword: '',
+                    12       });
+                    13       const onChange = (property: string, value: any) => {
+                    14         setValues({ ...values, [property]: value });
+                    15       };
+                    16       const register = async () => {
+                    17         const response = await RegisterAuthUseCase(values);
+                    18         console.log('Result: ' + JSON.stringify(response));
+                    19       }
+                    20       return {
+                    21         ...values,
+                    22         onChange,
+                    23         register
+                    24       };
+                    25   }
+                    26 
+                    27   export default RegisterViewModel;
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+
+
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||----------------------------------------------------------- 07. VALIDACIÓN DE FORMULARIOS -----------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 07.01.  Codificar la lógica de autenticación de usuario en el 'dominio' en 'frontend/src/domain/repositories/AuthRepository.tsx': -----------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { User } from "../entities/User";
+                    02   import { ResponseApiDelivery } from "../../data/sources/remote/models/ResponseApiDelivery";
+                    03 
+                    04   export interface AuthRepository {
+                    05     login(email: string, password: string): Promise<ResponseApiDelivery>;
+                    06     register(user: User): Promise<ResponseApiDelivery>;
+                    07   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 07.02.  Modificar la implementación del 'login' en 'frontend/src/data/repositories/AuthRepository.tsx': -----------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { AxiosError } from "axios";
+                      import { User } from "../../domain/entities/User";
+                      import { AuthRepository } from "../../domain/repositories/AuthRepository";
+                      import { ApiDelivery } from "../sources/remote/api/ApiDelivery";
+                      import { ResponseApiDelivery } from "../sources/remote/models/ResponseApiDelivery";
+
+                      export class AuthRepositoryImpl implements AuthRepository {
+
+                        async register(user: User): Promise<ResponseApiDelivery> {
+                          try {
+                            const response = await ApiDelivery.post<ResponseApiDelivery>('./users/create', user);
+                            return Promise.resolve(response.data);
+                          } catch (error) {
+                            let e = (error as AxiosError);
+                            console.log('Error: ' + JSON.stringify(e.response?.data));
+                            const apiError: ResponseApiDelivery = JSON.parse(JSON.stringify(e.response?.data));
+                            return Promise.resolve(apiError);
+                          }
+                        }
+
+                        async login(email: string, password: string): Promise<ResponseApiDelivery> {
+                          try {
+                            const response = await ApiDelivery.post<ResponseApiDelivery>('/users/login', {
+                              email: email,
+                              password: password
+                            });
+                            return Promise.resolve(response.data);
+                          } catch (error) {
+                            let e = (error as AxiosError);
+                            console.log('error' + JSON.stringify(e.response?.data));
+                            const apiError:ResponseApiDelivery = JSON.parse(JSON.stringify(e.response?.data));
+                            return Promise.resolve(apiError);
+                          }
+                        }
+
+                      }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- 07.03.  Codificar la implementación de la autenticación del 'login' en 'frontend/src/domain/useCases/auth/LoginAuth.tsx': -----------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+                    01   import { AuthRepositoryImpl } from "../../../data/repositories/AuthRepository";
+                    02 
+                    03   const {login} = new AuthRepositoryImpl();
+                    04 
+                    05   export const LoginAuthUseCase = async (email: string, password: string) => {
+                    06     return await login(email, password);
+                    07   }
+
+                ┌ --------------------------------------------------------------------------------------------------------------------------------------- ┐
+                |                                                                                                                                         |
+                  EXPLICACIÓN:   
+                    
+                    ⦿   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+                |---------------------------------------------------------------------------------------------------------------------------------------- |
+                
+                    A.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                    B.   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+                |                                                                                                                                         |
+                └ --------------------------------------------------------------------------------------------------------------------------------------- ┘
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||------------------------------------------------------------------------------ ANEXOS ------------------------------------------------------------------------------|||
+||| ------------------------------------------------------------------------- TENER EN CUENTA -------------------------------------------------------------------------|||
+|||--------------------------------------------------------------------------------------------------------------------------------------------------------------------|||
+|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|||
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- AX_01.  Subir el proyecto a un repositorio 'Github': ----------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            Para evitar confusiones y seguir los pasos correctamente, la carpeta raíz del proyecto se llamará 'proyecto'.
+            
+            01. Verificar que no haya una cuenta de 'Github' asociada al computador, para ello, debe abrir el 'Panel de Control', dar click en 'Cuentas 
+                de usuario / Administrar credenciales de Windows'. Si hay una cuenta asociada 'git:https://github.com', dar click sobre la cuenta y click
+                sobre la opción 'Quitar'. 
+            
+                    ⦿   De no funcionar este método porque no tiene acceso al Panel de control, pruebe abriendo el 'Windows PowerShell' y digite el 
+                         siguiente comando:
+
+                         PS C:\..\..> echo "protocol=https`nhost=github.com`n" | git credential-manager erase
+            
+            02. Abrir su cuenta de 'Github' y en la parte superior derecha, dar click al 'Nombre de su cuenta / Your Repositories'. Dar click a 'New'.
+                En el control de texto 'Repository name', escribir el nombre de la carpeta raíz de su proyecto (ejemplo, 'proyecto'. La carpeta raíz no debe 
+                tener espacios, ni caracteres compuesto, ni caracteres especiales) y dar click en 'Create Repository'.
+
+                    ⦿   Si no tiene cuenta en 'GitHub', debe crear una.
+            
+            03. Click derecho sobre la carpeta raíz (ejemplo, 'proyecto') y seleccionar la opción 'Open Git Bash here'; si no se 
+                encuentra la opción, hay que instalar 'Git'.
+            
+            04. En el 'Git Bash' escribir lo siguiente:
+
+                    $ git config --global user.name "nombre de su cuenta"
+                    $ git config --global user.email "correo de su cuenta"
+
+                    $ git init
+                    $ git branch -M main
+                    $ git remote add origin https://github.com/SenaProfeAlbeiro/proyecto.git
+                    $ git add .
+                    $ git commit -m "Subiendo Proyecto"
+                    $ git push -u origin main
+
+            05. Va a aparecer una ventana denominada 'Connect to Github', dar click en la opción 'Sign in with your browser', dar click en 'Authentication 
+                Succeeded'. Verificar que se haya abierto en el navegador en donde tiene la cuenta activa, de lo contrario hay que escribir nuevamente las
+                credenciales de 'Github'. En el 'Git Bash' debe aparecer texto similar al siguiente:
+
+                    Enumerating objects: 3, done.
+                    Counting objects: 100% (3/3), done.
+                    Writing objects: 100% (3/3), 226 bytes | 226.00 KiB/s, done.
+                    Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+                    To https://github.com/SenaProfeAlbeiro/proyecto.git
+                    * [new branch]      main -> main
+                    branch 'main' set up to track 'origin/main'.
+            
+            06. Actualizar la ventana del navegador donde se encuentra abierta su cuenta de 'Github'
+            
+            07. Para actualizar la información del proyecto en 'Github', en el 'Git bash' escribir los siguientes comandos:
+
+                    $ git add .
+                    $ git commit -m "Comentario del cambio"
+                    $ git push
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- AX_02.  Clonar un proyecto 'Github': --------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Abrir su cuenta de 'Github' y en la parte superior derecha, dar click al 'Nombre de su cuenta / Your Repositories'. 
+
+            02. Dar click al proyecto que desea clonar, en el caso del ejemplo es 'proyecto'.
+
+            03. Dar click a la opción '<> Code / Copy url to clipboard'.
+
+            04. Ir a una carpeta de Windows, por ejemplo, en el 'C:\xampp\htdocs' (en el caso del ejemplo, 'proyecto').
+
+            05. Click derecho sobre el área de trabajo y seleccionar la opción 'Open Git Bash here'; si no se encuentra la opción, hay que instalar 
+                'Git'.
+ 
+            06. En el 'Git Bash' pegar el repositorio clonado de 'Github' con 'CTRL + INSERT', quedando como sigue:
+
+                         $ git clone https://github.com/SenaProfeAlbeiro/proyecto.git
+
+                    ⦿   Si el proyecto ya se encuentra en el computador, puede utilizar el siguiente comando para actualizar la información:
+                    
+                         $ git pull
+            
+            07. Abrir el proyecto en Visual Studio Code.
+
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- AX_03.  Cambiar los puertos de 'Apache' en 'XAMPP': -----------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+                         
+            01. En el Panel de control de XAMPP y en la misma línea del servicio 'Apache' dar click a 'Config / Apache (httpd.conf)'.
+            
+            02. Se abrirá un 'Bloc de Notas'. Dar click a la opción 'Edición / Buscar...' (o presionar las teclas 'CTRL + B').
+            
+            03. En la ventana emergente y en el control de texto 'Buscar: ', escribir '80' y dar click a 'Buscar siguiente'.
+            
+            04. Reemplazar todos los valores donde se encentre el puerto '80' con el puerto nuevo de trabajo, por ejemplo, '8080'. Dar click en 
+                'cancelar' y guardar los cambios en el archivo.
+
+            05. En el Panel de control de XAMPP dar click en 'start' de 'Apache' para iniciar el servicio.
+            
+            06. Comprobar que quedó de la forma correcta a través del navegador, con el siguiente enlace:
+
+                         http://localhost:8080/proyecto/
+            
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- AX_04.  Cambiar los puertos de 'MySQL' en 'XAMPP': ------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. En el Panel de control de XAMPP y en la misma línea del servicio 'MySQL' dar click a 'Config / my.ini'.
+
+            02. Se abrirá un 'Bloc de Notas'. Dar click a la opción 'Edición / Buscar...' (o presionar las teclas 'CTRL + B').
+            
+            03. En la ventana emergente y en el control de texto 'Buscar: ', escribir '3306' y dar click a 'Buscar siguiente'.
+
+            04. Reemplazar todos los valores donde se encentre el puerto '3306' con el puerto nuevo de trabajo, por ejemplo, '3308'. Dar click en 
+                'cancelar' y guardar los cambios en el archivo.
+
+            05. En el Panel de control de XAMPP y en la misma línea del servicio 'Apache' dar click a 'Config / Apache (php.ini)'.
+
+            06. Se abrirá un 'Bloc de Notas'. Dar click a la opción 'Edición / Buscar...' (o presionar las teclas 'CTRL + B').
+
+            07. En la ventana emergente y en el control de texto 'Buscar: ', escribir '3306' y dar click a 'Buscar siguiente'.
+
+            08. Reemplazar todos los valores donde se encentre el puerto '3306' con el puerto nuevo de trabajo, por ejemplo, '3308'. Dar click en 
+                'cancelar' y guardar los cambios en el archivo.
+        
+            09. En el Panel de control de XAMPP y en la misma línea del servicio 'Apache' dar click a 'Config / phpMyAdmin (config.inc.php)'.
+
+            10. Buscar la línea '$cfg['Servers'][$i]['host'] = '127.0.0.1;' y agregar el puerto nuevo '3308' de la siguiente forma:
+                         
+                         $cfg['Servers'][$i]['host'] = '127.0.0.1:3308';
+
+            11. En el Panel de control de XAMPP dar click en 'start' de 'MySQL' para iniciar el servicio.
+
+            12. Comprobar que quedó de la forma correcta a través del navegador, con el siguiente enlace:
+
+                         http://localhost:8080/phpmyadmin/
+
+
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- AX_05.  Puesta en marcha del proyecto: ------------------------------------------------------------------------------------------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+            01. Crear la Base de datos:
+
+                https://github.com/ProfeAlbeiro/react_native/blob/main/sources/db/nodejs_base1.sql
+
+            02. Abrir el emulador de Android Studio
+
+            03. Tomar en cuenta la 'ipconfig' del 'node_js/server.js' y 'my-app/src/Data/sources/remote/api/apiDelivery.tsx' ya que deben coincidir
+
+            04. Abrir una terminal en 'Visual Studio Code' y ejecutar los siguientes comandos:
+
+                    ⦿   PS C:\..> cd node_js
+                    ⦿   PS C:\..\node_js> npm install
+                    ⦿   PS C:\..\node_js> node server.js
+            
+            05. Abrir otra terminal en 'Visual Studio Code' y ejecutar los siguientes comandos:
+
+                    ⦿   PS C:\..> cd my-app
+                    ⦿   PS C:\..\my-app> npm install
+                    ⦿   PS C:\..\my-app> npm run android
