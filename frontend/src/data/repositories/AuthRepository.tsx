@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { User } from "../../domain/entities/User";
 import { AuthRepository } from "../../domain/repositories/AuthRepository";
 import { ApiDelivery } from "../sources/remote/api/ApiDelivery";
@@ -7,38 +6,39 @@ import { ResponseApiDelivery } from "../sources/remote/models/ResponseApiDeliver
 export class AuthRepositoryImpl implements AuthRepository {
   async register(user: User): Promise<ResponseApiDelivery> {
     try {
+      console.log("📤 Enviando registro:", user);
       const response = await ApiDelivery.post<ResponseApiDelivery>(
-        "./users/create",
+        "/api/users/create",
         user
       );
-      return Promise.resolve(response.data);
-    } catch (error) {
-      let e = error as AxiosError;
-      console.log("Error: " + JSON.stringify(e.response?.data));
-      const apiError: ResponseApiDelivery = JSON.parse(
-        JSON.stringify(e.response?.data)
-      );
-      return Promise.resolve(apiError);
+      console.log("✅ Registro exitoso");
+      return response.data;
+    } catch (error: any) {
+      console.log("❌ Error en registro:", error.response?.data || error.message);
+      
+      return {
+        success: false,
+        message: error.response?.data?.message || "Error al registrar usuario"
+      };
     }
   }
 
   async login(email: string, password: string): Promise<ResponseApiDelivery> {
     try {
+      console.log("📤 Enviando login:", { email });
       const response = await ApiDelivery.post<ResponseApiDelivery>(
-        "/users/login",
-        {
-          email: email,
-          password: password,
-        }
+        "/api/users/login",
+        { email, password }
       );
-      return Promise.resolve(response.data);
-    } catch (error) {
-      let e = error as AxiosError;
-      console.log("error" + JSON.stringify(e.response?.data));
-      const apiError: ResponseApiDelivery = JSON.parse(
-        JSON.stringify(e.response?.data)
-      );
-      return Promise.resolve(apiError);
+      console.log("✅ Login exitoso");
+      return response.data;
+    } catch (error: any) {
+      console.log("❌ Error en login:", error.response?.data || error.message);
+      
+      return {
+        success: false,
+        message: error.response?.data?.message || "Error al iniciar sesión"
+      };
     }
   }
 }

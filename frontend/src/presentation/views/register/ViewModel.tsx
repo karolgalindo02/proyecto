@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { testConnection, testUserEndpoint, createUser } from '../../../data/services/TestConnection';
+import { Validators } from '../../../utils/validators';
+import { RegisterAuthUseCase } from '../../../domain/useCases/auth/RegisterAuth';
 
 const RegisterViewModel = () => {
     const [values, setValues] = useState({
@@ -10,93 +11,128 @@ const RegisterViewModel = () => {
         password: '',
         confirmPassword: '',
     });
-    
+
+    const [errors, setErrors] = useState({
+        name: '',
+        lastname: '',
+        phone: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [debugInfo, setDebugInfo] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalConfig, setModalConfig] = useState({
+        type: 'info' as 'success' | 'error' | 'warning' | 'info',
+        title: '',
+        message: ''
+    });
+
+    const validateField = (field: string, value: string) => {
+        let error = '';
+        
+        switch (field) {
+            case 'name':
+                error = Validators.validateName(value).message;
+                break;
+            case 'lastname':
+                error = Validators.validateLastname(value).message;
+                break;
+            case 'email':
+                error = Validators.validateEmail(value).message;
+                break;
+            case 'phone':
+                error = Validators.validatePhone(value).message;
+                break;
+            case 'password':
+                error = Validators.validatePassword(value).message;
+                break;
+            case 'confirmPassword':
+                error = Validators.validateConfirmPassword(values.password, value).message;
+                break;
+        }
+
+        setErrors(prev => ({ ...prev, [field]: error }));
+        return error === '';
+    };
+
+    const validateAllFields = () => {
+        const newErrors = {
+            name: Validators.validateName(values.name).message,
+            lastname: Validators.validateLastname(values.lastname).message,
+            email: Validators.validateEmail(values.email).message,
+            phone: Validators.validatePhone(values.phone).message,
+            password: Validators.validatePassword(values.password).message,
+            confirmPassword: Validators.validateConfirmPassword(values.password, values.confirmPassword).message,
+        };
+
+        setErrors(newErrors);
+
+        return Object.values(newErrors).every(error => error === '');
+    };
 
     const onChange = (property: string, value: any) => {
-        setValues({ ...values, [property]: value });
-        setError('');
-        setDebugInfo('');
+        setValues(prev => ({ ...prev, [property]: value }));
+        
+        // Validación en tiempo real
+        if (property === 'confirmPassword') {
+            validateField(property, value);
+        } else {
+            validateField(property, value);
+        }
+    };
+
+    const showModal = (type: 'success' | 'error' | 'warning' | 'info', title: string, message: string) => {
+        setModalConfig({ type, title, message });
+        setModalVisible(true);
     };
 
     const register = async () => {
-        console.log('🔄 Iniciando proceso de registro...');
-        
-        // Validaciones
-        if (values.password !== values.confirmPassword) {
-            setError('Las contraseñas no coinciden');
+        // Validar todos los campos antes de enviar
+        if (!validateAllFields()) {
+            showModal('error', 'Error de validación', 'Por favor corrige los errores en el formulario');
             return;
         }
 
         setLoading(true);
-        setError('');
-        setDebugInfo('Probando conexión...');
 
         try {
-            // Paso 1: Probar conexión básica
-            setDebugInfo('Paso 1: Probando conexión con backend...');
-            const isConnected = await testConnection();
+            console.log('📝 Intentando registrar usuario:', values);
+            const response = await RegisterAuthUseCase(values);
             
-            if (!isConnected) {
-                setError('No se puede conectar al servidor.');
-                return;
+            if (response.success) {
+                console.log('✅ Registro exitoso:', response.data);
+                
+                // Mostrar modal de éxito
+                showModal('success', '¡Registro exitoso!', 'Tu cuenta ha sido creada correctamente');
+                
+                // Limpiar formulario
+                setValues({
+                    name: '',
+                    lastname: '',
+                    phone: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                });
+                
+                // Limpiar errores
+                setErrors({
+                    name: '',
+                    lastname: '',
+                    phone: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                });
+                
+            } else {
+                showModal('error', 'Error en el registro', response.message || 'Ha ocurrido un error al registrar');
             }
-
-            // Paso 2: Probar endpoint de users (OPCIONAL - puede fallar por autenticación)
-            setDebugInfo('Paso 2: Probando endpoint de usuarios...');
-            try {
-                const isUsersEndpointWorking = await testUserEndpoint();
-                console.log('Endpoint /api/users:', isUsersEndpointWorking ? '✅ Funciona' : '❌ No funciona');
-            } catch (endpointError) {
-                console.log('⚠️  Endpoint /api/users requiere autenticación, pero continuamos...');
-            }
-
-            // Paso 3: Crear usuario (esto es lo importante)
-            setDebugInfo('Paso 3: Enviando datos del usuario...');
-            console.log('📝 Datos a enviar:', JSON.stringify(values, null, 2));
-            
-            const result = await createUser(values);
-            
-            setDebugInfo('✅ Registro exitoso!');
-            console.log('🎉 Resultado del registro:', result);
-            
-            // Limpiar formulario
-            setValues({
-                name: '',
-                lastname: '',
-                phone: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
-            });
-
-            // Mostrar éxito
-            setDebugInfo('Usuario registrado correctamente en la base de datos');
-
         } catch (error: any) {
             console.log('💥 Error en el proceso:', error);
-            
-            let errorMessage = 'Error al registrar usuario';
-            
-            if (error.response) {
-                // El backend respondió con error
-                if (error.response.status === 404) {
-                    errorMessage = 'Endpoint no encontrado. Verifica las rutas del backend.';
-                } else if (error.response.data?.message) {
-                    errorMessage = error.response.data.message;
-                } else {
-                    errorMessage = `Error ${error.response.status}: ${error.response.statusText}`;
-                }
-            } else if (error.request) {
-                errorMessage = 'No hay respuesta del servidor';
-            } else {
-                errorMessage = error.message;
-            }
-            
-            setError(errorMessage);
-            setDebugInfo(`Error: ${errorMessage}`);
+            showModal('error', 'Error de conexión', 'No se pudo conectar con el servidor');
         } finally {
             setLoading(false);
         }
@@ -104,11 +140,14 @@ const RegisterViewModel = () => {
 
     return {
         ...values,
+        errors,
         loading,
-        error,
-        debugInfo,
+        modalVisible,
+        modalConfig,
         onChange,
-        register
+        register,
+        setModalVisible,
+        validateField
     };
 }
 

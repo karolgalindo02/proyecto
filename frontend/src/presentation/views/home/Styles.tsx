@@ -11,6 +11,12 @@ const HomeStyles = StyleSheet.create({
     opacity: 0.7,
     bottom: '30%',
   },
+  requiredText: {
+  fontSize: 12,
+  color: '#666',
+  marginTop: 10,
+  fontStyle: 'italic',
+},
   logoContainer: {
     position: 'absolute',
     alignSelf: 'center',

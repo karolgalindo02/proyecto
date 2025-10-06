@@ -3,13 +3,14 @@ import styles from './Styles';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { RoundedButton } from '../../components/RoundedButton';
 import { CustomTextInput } from '../../components/CustomTextInput';
+import { CustomModal } from '../../components/CustomModal';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../../App';
 import { useNavigation } from '@react-navigation/native';
 import useViewModel from './ViewModel';
 
 export const HomeScreen = () => {
-  const { email, password, onChange } = useViewModel();
+  const { email, password, errors, loading, modalVisible, modalConfig, onChange, login, setModalVisible } = useViewModel();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   return (
@@ -27,29 +28,38 @@ export const HomeScreen = () => {
       </View>
       <View style={styles.form}>
         <Text style={styles.formText}>INGRESAR</Text>
+        
         <CustomTextInput
           image={require('../../../../assets/email.png')}
-          placeholder='Correo Electrónico'
+          placeholder='Correo Electrónico*'
           keyboardType='email-address'
           property='email'
           onChangeText={onChange}
           value={email}
+          error={errors.email}
+          showError={true}
         />
+        
         <CustomTextInput
           image={require('../../../../assets/password.png')}
-          placeholder='Contraseña'
+          placeholder='Contraseña*'
           keyboardType='default'
           property='password'
           onChangeText={onChange}
           value={password}
           secureTextEntry={true}
+          error={errors.password}
+          showError={true}
         />
+        
         <View style={{ marginTop: 30 }}>
-          <RoundedButton text='ENVIAR' onPress={() => {
-            console.log('Email: ' + email);
-            console.log('Password: ' + password);
-          }} />
+          <RoundedButton 
+            text={loading ? 'INICIANDO SESIÓN...' : 'INICIAR SESIÓN'} 
+            onPress={login}
+
+          />
         </View>
+        
         <View style={styles.formRegister}>
           <Text>¿No tienes cuenta?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
@@ -57,6 +67,15 @@ export const HomeScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Modal para mensajes */}
+      <CustomModal
+        visible={modalVisible}
+        type={modalConfig.type}
+        title={modalConfig.title}
+        message={modalConfig.message}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 }
