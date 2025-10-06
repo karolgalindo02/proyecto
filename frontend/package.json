@@ -1,12 +1,17 @@
 {
-  "name": "frontend",
+  "name": "food-app",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+
+    "lint": "npx eslint src --ext .ts,.tsx --max-warnings 0",
+    "lint:report": "npx eslint src --ext .ts,.tsx --format json --output-file eslint-report.json",
+    "type-check": "npx tsc --noEmit",
+    "sonar": "sonar-scanner"
   },
   "dependencies": {
     "@react-navigation/native": "^7.1.18",

@@ -1,0 +1,55 @@
+name: Frontend Analysis - Food App
+
+on:
+  push:
+    branches:
+      - main
+      - branch-frontend
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analyze-frontend:
+    name: Analyze Frontend with SonarQube
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. Checkout del código
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    # 2. Configurar Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'food-app/package-lock.json'
+
+    # 3. Instalar dependencias del frontend
+    - name: Install frontend dependencies
+      run: |
+        cd food-app
+        npm ci
+
+    # 4. Verificación de tipos TypeScript
+    - name: TypeScript type check
+      run: |
+        cd food-app
+        npx tsc --noEmit
+
+    # 5. Análisis estático con ESLint
+    - name: Run ESLint analysis
+      run: |
+        cd food-app
+        npx eslint src --ext .ts,.tsx --format json --output-file eslint-report.json || echo "ESLint completed with findings"
+
+    # 6. Análisis con SonarQube
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@v6
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectBaseDir: food-app
