@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Rutas
-app.use('/api/users', usersRoutes);si
+app.use('/api/users', usersRoutes);
 
 // Módulo de Tareas
 app.use('/api/tasks', taskRoutes);
