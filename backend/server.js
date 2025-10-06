@@ -3,8 +3,8 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const usersRoutes = require('./routes/userRoutes');
-//const taskRoutes = require('./routes/taskRoutes');
-
+const taskRoutes = require('./routes/taskRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 const app = express();
 
 // Middlewares globales
@@ -16,8 +16,11 @@ app.use(cors());
 // Rutas
 app.use('/api/users', usersRoutes);
 
-// Modulo de Tareas
-//app.use('/api/tasks', taskRoutes);
+// Módulo de Tareas
+app.use('/api/tasks', taskRoutes);
+
+// Módulo de Proyectos
+app.use('/api/projects', projectRoutes);
 
 // Endpoints de prueba
 app.get('/', (req, res) => {
@@ -34,5 +37,10 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.stack);
 });
 
+app.listen(3000, () => {
+  console.log('Servidor escuchando en el puerto 3000');
+});
+
 // Exportamos la app para que la use index.js
 module.exports = app;
+

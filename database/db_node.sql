@@ -21,12 +21,23 @@ CREATE TABLE tasks (
   project_id BIGINT NOT NULL,
   assigned_to BIGINT NOT NULL,
   progress INT DEFAULT 0,
-  priority ENUM('baja', 'media', 'alta') DEFAULT 'media',
+  priority ENUM('Low', 'Medium', 'High') DEFAULT 'Low',
   due_date DATE,
-  status ENUM('en progreso', 'finalizada') DEFAULT 'en progreso',
+  status ENUM('In Progress', 'Completed') DEFAULT 'In Progress',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (project_id) REFERENCES projects(id),
   FOREIGN KEY (assigned_to) REFERENCES users(id)
 );
+
+CREATE TABLE projects (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  team VARCHAR(255) NOT NULL,         -- equipo quien lo realiza (puedes guardar nombres o IDs separados por comas)
+  progress INT DEFAULT 0,             -- porcentaje de avance
+  status ENUM('In Progress', 'Completed') DEFAULT 'In Progress',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;
