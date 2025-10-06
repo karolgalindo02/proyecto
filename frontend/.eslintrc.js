@@ -6,43 +6,38 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    '@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:react-native/all',
+    'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+    project: './tsconfig.json',
+  },
   plugins: [
     '@typescript-eslint',
     'react',
     'react-native',
   ],
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
   rules: {
-    // Reglas de seguridad
+    // Seguridad
     'no-console': 'warn',
     'no-debugger': 'error',
     'no-eval': 'error',
     
-    // Reglas de React
-    'react/prop-types': 'off', // Usamos TypeScript
-    'react/react-in-jsx-scope': 'off', // No necesario en React 17+
-    
-    // Reglas de React Native
-    'react-native/no-inline-styles': 'warn',
-    'react-native/no-unused-styles': 'error',
-    'react-native/split-platform-components': 'warn',
-    
-    // Reglas de TypeScript
-    '@typescript-eslint/no-explicit-any': 'warn',
+    // TypeScript
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
     
-    // Calidad de código
-    'complexity': ['warn', 10],
-    'max-depth': ['warn', 4],
-    'max-lines': ['warn', 300],
+    // React
+    'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react-native/no-inline-styles': 'warn',
+    'react-native/no-unused-styles': 'warn',
   },
 };

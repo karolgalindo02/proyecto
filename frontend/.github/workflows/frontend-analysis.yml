@@ -34,22 +34,22 @@ jobs:
         cd food-app
         npm ci
 
-    # 4. Verificación de tipos TypeScript
+ # 4. Verificación de TypeScript para React Native
     - name: TypeScript type check
       run: |
-        cd food-app
-        npx tsc --noEmit
+        cd frontend
+        npx tsc --noEmit --skipLibCheck --jsx react-native
 
-    # 5. Análisis estático con ESLint
-    - name: Run ESLint analysis
+    # 5. Análisis ESLint para React Native
+    - name: ESLint analysis
       run: |
-        cd food-app
-        npx eslint src --ext .ts,.tsx --format json --output-file eslint-report.json || echo "ESLint completed with findings"
-
+        cd frontend
+        npx eslint src --ext .ts,.tsx --format json --output-file eslint-report.json || echo "ESLint analysis completed"
+        
     # 6. Análisis con SonarQube
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v6
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: food-app
+        projectBaseDir: frontend

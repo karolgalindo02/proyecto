@@ -7,7 +7,6 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-
     "lint": "npx eslint src --ext .ts,.tsx --max-warnings 0",
     "lint:report": "npx eslint src --ext .ts,.tsx --format json --output-file eslint-report.json",
     "type-check": "npx tsc --noEmit",
@@ -28,6 +27,12 @@
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.0",
+    "eslint-config-expo": "^10.0.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-native": "^5.0.0",
     "typescript": "~5.9.2"
   },
   "private": true
