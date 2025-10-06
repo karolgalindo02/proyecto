@@ -159,6 +159,7 @@ valores de salida. El rango de valores definido se agrupa en clases de equivalen
 
 ![imagen](https://github.com/karolgalindo02/proyecto/blob/frontend/pruebas/frontend/Login%20Exitoso%20-%20FoodApp.png)
 
+
 * _Registro de datos en BDD_
 
 ![imagen](https://github.com/karolgalindo02/proyecto/blob/frontend/pruebas/frontend/Registro%20Conexi%C3%B3n.png)
