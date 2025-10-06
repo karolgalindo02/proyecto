@@ -111,8 +111,31 @@ _FrontEnd_
 * Axios – Cliente HTTP para la comunicación con la API
 * React Native Screens – Optimizador del rendimiento en la navegación
 
+## Pruebas con Postman APIREST 👾
 
-## Pruebas de Caja Negra 👾
+* _API Tareas_
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/GET%20Task.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/POST%20taskCreate.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/PUT%20taskUpdate.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/DEL%20taskDelete.png)
+
+
+* _API Proyectos_
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/GET%20project.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/POST%20projectCreate.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/PUT%20projectUpdate.png)
+
+![imagen](https://github.com/karolgalindo02/proyecto/blob/dev/pruebas/DEL%20projectDelete.png)
+
+
+## Pruebas de Caja Negra FRONTEND 🤖
 
 a) Partición equivalente 📝
 
