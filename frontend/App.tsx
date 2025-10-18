@@ -1,13 +1,24 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from './src/presentation/views/home/Home';
-import { RegisterScreen } from './src/presentation/views/register/Register';
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { HomeScreen } from "./src/presentation/views/home/Home";
+import { RegisterScreen } from "./src/presentation/views/register/Register";
+import { DashboardScreen } from "./src/presentation/views/dashboard/Dashboard";
+import { ProjectFormScreen } from "./src/presentation/views/projects/ProjectFormScreen";
+import { TaskFormScreen } from "./src/presentation/views/tasks/TaskFormScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
   RegisterScreen: undefined;
-}
+  DashboardScreen: undefined;
+  TasksScreen: undefined;
+  TaskCreateScreen: undefined;
+  TaskEditScreen: { taskId: number };
+  TaskDetailScreen: { taskId: number };
+  ProjectCreateScreen: undefined;
+  ProjectDetailScreen: { projectId: number };
+  ProfileScreen: undefined;
+};
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -15,10 +26,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-        />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen
           name="RegisterScreen"
           component={RegisterScreen}
@@ -27,6 +35,12 @@ const App = () => {
             title: "Registro",
           }}
         />
+        <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
+        <Stack.Screen
+          name="ProjectCreateScreen"
+          component={ProjectFormScreen}
+        />
+        <Stack.Screen name="TaskCreateScreen" component={TaskFormScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

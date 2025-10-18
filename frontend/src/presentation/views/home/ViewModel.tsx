@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../../App';
 import { LoginAuthUseCase } from '../../../domain/useCases/auth/LoginAuth';
 import { Validators } from '../../../utils/validators';
 
-type HomeNavigationProp = StackNavigationProp<RootStackParamList>;
+type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const HomeViewModel = () => {
   const [values, setValues] = useState({
@@ -79,15 +80,35 @@ const HomeViewModel = () => {
       const response = await LoginAuthUseCase(values.email, values.password);
       
       if (response.success) {
+        // Guardar token y usuario en AsyncStorage
+        try {
+          if (response.data?.session_token) {
+            await AsyncStorage.setItem('token', response.data.session_token);
+          }
+          if (response.data) {
+            await AsyncStorage.setItem('user', JSON.stringify(response.data));
+          }
+        } catch (storageError) {
+          console.error('AsyncStorage save error:', storageError);
+          // continuar aunque falle el guardado local
+        }
+
+        // Navegar al Dashboard y limpiar historial de navegación
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'DashboardScreen' }]
+        });
+
+        // Mostrar confirmación al usuario
         showModal('success', '¡Login exitoso!', `Bienvenido ${response.data?.name || 'Usuario'}`);
-        
-   
-        
       } else {
         showModal('error', 'Error en el login', response.message || 'Credenciales incorrectas');
       }
-    } catch (error) {
-      showModal('error', 'Error de conexión', 'No se pudo conectar con el servidor');
+    } catch (error: unknown) {
+      console.error('Login error:', error);
+      let message = 'No se pudo conectar con el servidor';
+      if (error instanceof Error && error.message) message = error.message;
+      showModal('error', 'Error de conexión', message);
     } finally {
       setLoading(false);
     }

@@ -4,14 +4,16 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { RoundedButton } from '../../components/RoundedButton';
 import { CustomTextInput } from '../../components/CustomTextInput';
 import { CustomModal } from '../../components/CustomModal';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../../App';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../../App';
 import useViewModel from './ViewModel';
 
-export const HomeScreen = () => {
+type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+export const HomeScreen: React.FC = () => {
   const { email, password, errors, loading, modalVisible, modalConfig, onChange, login, setModalVisible } = useViewModel();
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<HomeNavigationProp>();
 
   return (
     <View style={styles.container}>
@@ -56,7 +58,6 @@ export const HomeScreen = () => {
           <RoundedButton 
             text={loading ? 'INICIANDO SESIÓN...' : 'INICIAR SESIÓN'} 
             onPress={login}
-
           />
         </View>
         
@@ -68,7 +69,6 @@ export const HomeScreen = () => {
         </View>
       </View>
 
-      {/* Modal para mensajes */}
       <CustomModal
         visible={modalVisible}
         type={modalConfig.type}
@@ -78,4 +78,4 @@ export const HomeScreen = () => {
       />
     </View>
   );
-}
+};
