@@ -37,8 +37,9 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.stack);
 });
 
-app.listen(3000, () => {
-  console.log('Servidor escuchando en el puerto 3000');
+const PORT = process.env.PORT || 8001;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
 // Exportamos la app para que la use index.js
