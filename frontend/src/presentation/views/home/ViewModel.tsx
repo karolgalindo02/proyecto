@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../../App';
 import { LoginAuthUseCase } from '../../../domain/useCases/auth/LoginAuth';
+import { SaveUserLocal } from '../../../domain/useCases/userLocal/SaveUserLocal';
 import { Validators } from '../../../utils/validators';
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList>;
@@ -79,9 +80,27 @@ const HomeViewModel = () => {
       const response = await LoginAuthUseCase(values.email, values.password);
       
       if (response.success) {
+        // Guardar datos del usuario localmente
+        await SaveUserLocal(response.data);
+        
         showModal('success', '¡Login exitoso!', `Bienvenido ${response.data?.name || 'Usuario'}`);
         
-   
+        // Redirigir según el rol después de mostrar el mensaje
+        setTimeout(() => {
+          setModalVisible(false);
+          
+          if (response.data?.role === 'admin') {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'DashboardAdminScreen' }],
+            });
+          } else {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'DashboardUserScreen' }],
+            });
+          }
+        }, 1500);
         
       } else {
         showModal('error', 'Error en el login', response.message || 'Credenciales incorrectas');
