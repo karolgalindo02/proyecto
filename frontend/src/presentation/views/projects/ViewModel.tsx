@@ -56,8 +56,7 @@ export const useProjectFormViewModel = () => {
 
   const validateAllFields = () => {
     const newErrors = {
-      name: !values.name.trim() ? 'El nombre del proyecto es requerido' : '',
-      team: !values.team.trim() ? 'El equipo es requerido' : '',
+ 'El equipo es requerido' : '',
       progress: '',
     };
 
@@ -66,7 +65,7 @@ export const useProjectFormViewModel = () => {
       newErrors.progress = 'El progreso debe ser entre 0 y 100';
     }
 
-    setErrors(newErrors);
+  
     return Object.values(newErrors).every(error => error === '');
   };
 

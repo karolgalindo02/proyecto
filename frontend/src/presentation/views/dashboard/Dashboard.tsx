@@ -160,39 +160,45 @@ export const DashboardScreen = () => {
                 {isAdmin ? 'No hay tareas pendientes' : 'No tienes tareas pendientes'}
               </Text>
             ) : (
-              myPendingTasks.map(task => (
-                <TouchableOpacity
-                  key={task.id}
-                  style={[
-                    styles.taskCard,
-                    task.priority === 'High' ? styles.priorityHigh :
-                    task.priority === 'Medium' ? styles.priorityMedium :
-                    styles.priorityLow
-                  ]}
-                  onPress={() => navigation.navigate('TaskDetailScreen' as any, { taskId: task.id })}
-                >
-                  <View style={styles.taskHeader}>
-                    <Text style={styles.taskName}>{task.name}</Text>
-                    <Text style={styles.taskPriority}>
-                      {task.priority === 'High' ? 'ALTA' : 
-                       task.priority === 'Medium' ? 'MEDIA' : 'BAJA'}
+              myPendingTasks.map(task => {
+                // extraer ternaria anidada: prioridad -> estilo y etiqueta
+                let priorityStyle = styles.priorityLow;
+                let priorityLabel = 'BAJA';
+
+                if (task.priority === 'High') {
+                  priorityStyle = styles.priorityHigh;
+                  priorityLabel = 'ALTA';
+                } else if (task.priority === 'Medium') {
+                  priorityStyle = styles.priorityMedium;
+                  priorityLabel = 'MEDIA';
+                }
+
+                return (
+                  <TouchableOpacity
+                    key={task.id}
+                    style={[styles.taskCard, priorityStyle]}
+                    onPress={() => navigation.navigate('TaskDetailScreen' as any, { taskId: task.id })}
+                  >
+                    <View style={styles.taskHeader}>
+                      <Text style={styles.taskName}>{task.name}</Text>
+                      <Text style={styles.taskPriority}>{priorityLabel}</Text>
+                    </View>
+                    <Text style={styles.taskDescription} numberOfLines={2}>
+                      {task.description}
                     </Text>
-                  </View>
-                  <Text style={styles.taskDescription} numberOfLines={2}>
-                    {task.description}
-                  </Text>
-                  {task.due_date && (
-                    <Text style={styles.dueDate}>
-                      Vence: {new Date(task.due_date).toLocaleDateString()}
-                    </Text>
-                  )}
-                  <View style={styles.taskProgress}>
-                    <Text style={styles.taskProgressText}>
-                      Progreso: {task.progress}%
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              ))
+                    {task.due_date && (
+                      <Text style={styles.dueDate}>
+                        Vence: {new Date(task.due_date).toLocaleDateString()}
+                      </Text>
+                    )}
+                    <View style={styles.taskProgress}>
+                      <Text style={styles.taskProgressText}>
+                        Progreso: {task.progress}%
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })
             )}
           </View>
 

@@ -30,7 +30,7 @@ CREATE TABLE projects (
   name VARCHAR(100) NOT NULL,
   team VARCHAR(255) NOT NULL,         -- equipo quien lo realiza
   progress INT DEFAULT 0,             -- porcentaje de avance
-  status ENUM('In Progress', 'Completed') DEFAULT 'In Progress',
+  status ENUM('Completed'),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
