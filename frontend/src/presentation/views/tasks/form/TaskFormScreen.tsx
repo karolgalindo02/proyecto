@@ -38,6 +38,12 @@ export const TaskFormScreen = () => {
     setModalVisible
   } = useTaskFormViewModel();
 
+  const getPriorityLabel = (opt: string) => {
+    if (opt === 'High') return 'ALTA';
+    if (opt === 'Medium') return 'MEDIA';
+    return 'BAJA';
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -137,24 +143,26 @@ export const TaskFormScreen = () => {
           <View style={styles.selectContainer}>
             <Text style={styles.selectLabel}>Prioridad</Text>
             <View style={styles.optionsContainer}>
-              {['Low', 'Medium', 'High'].map(priorityOption => (
-                <TouchableOpacity
-                  key={priorityOption}
-                  style={[
-                    styles.option,
-                    priority === priorityOption && styles.optionSelected
-                  ]}
-                  onPress={() => onChange('priority', priorityOption)}
-                >
-                  <Text style={[
-                    styles.optionText,
-                    priority === priorityOption && styles.optionTextSelected
-                  ]}>
-                    {priorityOption === 'High' ? 'ALTA' :
-                     priorityOption === 'Medium' ? 'MEDIA' : 'BAJA'}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+              {['Low', 'Medium', 'High'].map(priorityOption => {
+                const label = getPriorityLabel(priorityOption);
+                return (
+                  <TouchableOpacity
+                    key={priorityOption}
+                    style={[
+                      styles.option,
+                      priority === priorityOption && styles.optionSelected
+                    ]}
+                    onPress={() => onChange('priority', priorityOption)}
+                  >
+                    <Text style={[
+                      styles.optionText,
+                      priority === priorityOption && styles.optionTextSelected
+                    ]}>
+                      {label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           </View>
 

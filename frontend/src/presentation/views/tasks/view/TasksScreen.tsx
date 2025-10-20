@@ -17,27 +17,26 @@ import styles from './Styles';
 
 type TasksNavigationProp = StackNavigationProp<RootStackParamList>;
 
-export const TasksScreen = () => {
-  const navigation = useNavigation<TasksNavigationProp>();
-  const {
-    filteredTasks,
-    searchQuery,
-    filterStatus,
-    filterPriority,
-    refreshing,
-    modalVisible,
-    modalConfig,
-    user,
-    onChangeSearch,
-    onChangeFilterStatus,
-    onChangeFilterPriority,
-    onRefresh,
-    deleteTask,
-    toggleTaskStatus,
-    hideModal
-  } = useTasksViewModel();
+type TaskItemProps = {
+  item: any;
+  navigation: TasksNavigationProp;
+  toggleTaskStatus: (t: any) => void;
+  deleteTask: (id: any) => void;
+  user?: any;
+};
 
-  const renderTaskItem = ({ item }: { item: any }) => (
+const TaskItem: React.FC<TaskItemProps> = ({ item, navigation, toggleTaskStatus, deleteTask, user }) => {
+  const isOverdue = item.due_date && new Date(item.due_date) < new Date() && item.status !== 'Completed';
+
+  const getPriority = () => {
+    if (item.priority === 'High') return { style: styles.highPriority, label: 'ALTA' };
+    if (item.priority === 'Medium') return { style: styles.mediumPriority, label: 'MEDIA' };
+    return { style: styles.lowPriority, label: 'BAJA' };
+  };
+
+  const priority = getPriority();
+
+  return (
     <TouchableOpacity
       style={styles.taskItem}
       onPress={() => navigation.navigate('TaskDetailScreen' as any, { taskId: item.id })}
@@ -56,7 +55,7 @@ export const TasksScreen = () => {
               {item.status === 'Completed' ? '✓' : '⌛'}
             </Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
             onPress={() => navigation.navigate('TaskEditScreen' as any, { taskId: item.id })}
             style={styles.editButton}
@@ -80,25 +79,16 @@ export const TasksScreen = () => {
       </Text>
 
       <View style={styles.taskDetails}>
-        <Text style={[
-          styles.priorityBadge,
-          item.priority === 'High' ? styles.highPriority :
-          item.priority === 'Medium' ? styles.mediumPriority :
-          styles.lowPriority
-        ]}>
-          {item.priority === 'High' ? 'ALTA' : 
-           item.priority === 'Medium' ? 'MEDIA' : 'BAJA'}
+        <Text style={[styles.priorityBadge, priority.style]}>
+          {priority.label}
         </Text>
-        
+
         <Text style={styles.progressText}>
           Progreso: {item.progress}%
         </Text>
 
         {item.due_date && (
-          <Text style={[
-            styles.dueDate,
-            new Date(item.due_date) < new Date() && item.status !== 'Completed' && styles.overdue
-          ]}>
+          <Text style={[styles.dueDate, isOverdue && styles.overdue]}>
             Vence: {new Date(item.due_date).toLocaleDateString()}
           </Text>
         )}
@@ -114,6 +104,57 @@ export const TasksScreen = () => {
       </View>
     </TouchableOpacity>
   );
+};
+
+type FilterGroupProps<V extends string> = {
+  label: string;
+  options: { value: V; label: string }[];
+  current: V;
+  onChange: (v: V) => void;
+};
+
+function FilterGroup<V extends string>({ label, options, current, onChange }: Readonly<FilterGroupProps<V>>) {
+  return (
+    <View style={styles.filtersRow}>
+      <Text style={styles.filterLabel}>{label}</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.filterButtons}>
+          {options.map(opt => (
+            <TouchableOpacity
+              key={opt.value}
+              style={[styles.filterButton, current === opt.value && styles.filterButtonActive]}
+              onPress={() => onChange(opt.value)}
+            >
+              <Text style={[styles.filterButtonText, current === opt.value && styles.filterButtonTextActive]}>
+                {opt.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
+export const TasksScreen = () => {
+  const navigation = useNavigation<TasksNavigationProp>();
+  const {
+    filteredTasks,
+    searchQuery,
+    filterStatus,
+    filterPriority,
+    refreshing,
+    modalVisible,
+    modalConfig,
+    user,
+    onChangeSearch,
+    onChangeFilterStatus,
+    onChangeFilterPriority,
+    onRefresh,
+    deleteTask,
+    toggleTaskStatus,
+    hideModal
+  } = useTasksViewModel();
 
   return (
     <View style={styles.container}>
@@ -121,7 +162,7 @@ export const TasksScreen = () => {
      //   source={require('../../../../../assets/equipo.jpg')}
         style={styles.imageBackground}
       />
-      
+
       <View style={styles.headerContainer}>
         <Image
        //   source={require('../../../../../assets/logo.png')}
@@ -144,119 +185,28 @@ export const TasksScreen = () => {
             onChangeText={onChangeSearch}
           />
 
-          <View style={styles.filtersRow}>
-            <Text style={styles.filterLabel}>Estado:</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.filterButtons}>
-                <TouchableOpacity
-                  style={[
-                    styles.filterButton,
-                    filterStatus === 'all' && styles.filterButtonActive
-                  ]}
-                  onPress={() => onChangeFilterStatus('all')}
-                >
-                  <Text style={[
-                    styles.filterButtonText,
-                    filterStatus === 'all' && styles.filterButtonTextActive
-                  ]}>
-                    TODAS
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.filterButton,
-                    filterStatus === 'In Progress' && styles.filterButtonActive
-                  ]}
-                  onPress={() => onChangeFilterStatus('In Progress')}
-                >
-                  <Text style={[
-                    styles.filterButtonText,
-                    filterStatus === 'In Progress' && styles.filterButtonTextActive
-                  ]}>
-                    EN PROGRESO
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.filterButton,
-                    filterStatus === 'Completed' && styles.filterButtonActive
-                  ]}
-                  onPress={() => onChangeFilterStatus('Completed')}
-                >
-                  <Text style={[
-                    styles.filterButtonText,
-                    filterStatus === 'Completed' && styles.filterButtonTextActive
-                  ]}>
-                    COMPLETADAS
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
-          </View>
+          <FilterGroup<'all' | 'In Progress' | 'Completed'>
+            label="Estado:"
+            options={[
+              { value: 'all', label: 'TODAS' },
+              { value: 'In Progress', label: 'EN PROGRESO' },
+              { value: 'Completed', label: 'COMPLETADAS' },
+            ]}
+            current={filterStatus}
+            onChange={onChangeFilterStatus}
+          />
 
-          <View style={styles.filtersRow}>
-            <Text style={styles.filterLabel}>Prioridad:</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.filterButtons}>
-                <TouchableOpacity
-                  style={[
-                    styles.filterButton,
-                    filterPriority === 'all' && styles.filterButtonActive
-                  ]}
-                  onPress={() => onChangeFilterPriority('all')}
-                >
-                  <Text style={[
-                    styles.filterButtonText,
-                    filterPriority === 'all' && styles.filterButtonTextActive
-                  ]}>
-                    TODAS
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.filterButton,
-                    filterPriority === 'High' && styles.filterButtonActive
-                  ]}
-                  onPress={() => onChangeFilterPriority('High')}
-                >
-                  <Text style={[
-                    styles.filterButtonText,
-                    filterPriority === 'High' && styles.filterButtonTextActive
-                  ]}>
-                    ALTA
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.filterButton,
-                    filterPriority === 'Medium' && styles.filterButtonActive
-                  ]}
-                  onPress={() => onChangeFilterPriority('Medium')}
-                >
-                  <Text style={[
-                    styles.filterButtonText,
-                    filterPriority === 'Medium' && styles.filterButtonTextActive
-                  ]}>
-                    MEDIA
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.filterButton,
-                    filterPriority === 'Low' && styles.filterButtonActive
-                  ]}
-                  onPress={() => onChangeFilterPriority('Low')}
-                >
-                  <Text style={[
-                    styles.filterButtonText,
-                    filterPriority === 'Low' && styles.filterButtonTextActive
-                  ]}>
-                    BAJA
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
-          </View>
+          <FilterGroup<'all' | 'High' | 'Medium' | 'Low'>
+            label="Prioridad:"
+            options={[
+              { value: 'all', label: 'TODAS' },
+              { value: 'High', label: 'ALTA' },
+              { value: 'Medium', label: 'MEDIA' },
+              { value: 'Low', label: 'BAJA' },
+            ]}
+            current={filterPriority}
+            onChange={onChangeFilterPriority}
+          />
         </View>
 
         {/* Estadísticas Rápidas */}
@@ -284,20 +234,28 @@ export const TasksScreen = () => {
           <Text style={styles.sectionTitle}>
             TAREAS ({filteredTasks.length})
           </Text>
-          
+
           {filteredTasks.length === 0 ? (
             <View style={styles.emptyState}>
               <Text style={styles.emptyStateText}>No se encontraron tareas</Text>
               <Text style={styles.emptyStateSubtext}>
-                {searchQuery || filterStatus !== 'all' || filterPriority !== 'all' 
-                  ? 'Intenta con otros filtros' 
+                {searchQuery || filterStatus !== 'all' || filterPriority !== 'all'
+                  ? 'Intenta con otros filtros'
                   : 'Crea tu primera tarea'}
               </Text>
             </View>
           ) : (
             <FlatList
               data={filteredTasks}
-              renderItem={renderTaskItem}
+              renderItem={({ item }) => (
+                <TaskItem
+                  item={item}
+                  navigation={navigation}
+                  toggleTaskStatus={toggleTaskStatus}
+                  deleteTask={deleteTask}
+                  user={user}
+                />
+              )}
               keyExtractor={(item) => (item.id ?? '').toString()}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.tasksList}
