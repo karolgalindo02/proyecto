@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/taskController');
+const { verifyToken, authorizeRoles } = require('../middlewares/authMiddleware');
 
-// Listar todas las tareas
-router.get('/', taskController.getAllTasks);
+router.post('/', verifyToken, authorizeRoles(['admin']), taskController.createTask);
+router.put('/:id', verifyToken, authorizeRoles(['admin', 'user']), taskController.updateTask);
+router.get('/', verifyToken, authorizeRoles(['admin', 'user']), taskController.getAllTasks);
+router.delete('/:id', verifyToken, authorizeRoles(['admin']), taskController.deleteTask);
 
-// Crear una nueva tarea (solo admin)
-router.post('/', taskController.createTask);
-
-// Editar una tarea (usuario puede editar progreso, admin puede editar todo)
-router.put('/:id', taskController.updateTask);
-
-// Eliminar una tarea (solo admin)
-router.delete('/:id', taskController.deleteTask);
 
 module.exports = router;

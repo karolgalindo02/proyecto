@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const User = {};
 
 User.findAll = (result) => {
-  const sql = `SELECT id, email, name, lastname, phone, image, created_at, updated_at FROM users`;
+  const sql = `SELECT id, email, name, lastname, phone, image, role, created_at, updated_at FROM users`;
   db.query(sql, (err, users) => {
     if (err) {
       console.log('Error al listar usuarios: ', err);
@@ -16,7 +16,7 @@ User.findAll = (result) => {
 };
 
 User.findById = (id, result) => {
-  const sql = `SELECT id, email, name, lastname, image, password FROM users WHERE id = ?`;
+  const sql = `SELECT id, email, name, lastname, image, phone, role, password FROM users WHERE id = ?`;
   db.query(sql, [id], (err, user) => {
     if (err) {
       console.log('Error al consultar: ', err);
@@ -29,7 +29,7 @@ User.findById = (id, result) => {
 };
 
 User.findByEmail = (email, result) => {
-  const sql = `SELECT id, email, name, lastname, image, phone, password FROM users WHERE email = ?`;
+  const sql = `SELECT id, email, name, lastname, image, phone, role, password FROM users WHERE email = ?`;
   db.query(sql, [email], (err, user) => {
     if (err) {
       console.log('Error al consultar: ', err);
@@ -42,28 +42,34 @@ User.findByEmail = (email, result) => {
 };
 
 User.create = async (user, result) => {
-   // Validación de campos requeridos
+  // Validación de campos requeridos
   if (!user.email || !user.name || !user.lastname || !user.phone || !user.password) {
     result({ message: "Faltan campos requeridos" }, null);
     return;
   }
+
   const hash = await bcrypt.hash(user.password, 10);
-  const sql = `INSERT INTO USERS(
+  
+  // SQL corregido para incluir el campo role
+  const sql = `INSERT INTO users(
                 email, 
                 name, 
                 lastname,
                 phone,
                 image,
+                role,
                 password,
                 created_at,
                 updated_at
-              ) VALUES (?,?,?,?,?,?,?,?)`;
+              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  
   db.query(sql, [
     user.email,
     user.name,
     user.lastname,
     user.phone,
     user.image,
+    user.role || 'user', // Usar el role enviado o 'user' por defecto
     hash,
     new Date(),
     new Date()
@@ -78,6 +84,7 @@ User.create = async (user, result) => {
   });
 };
 
+// El resto del código se mantiene igual...
 User.update = async (user, result) => {
   let fields = [];
   let values = [];
@@ -107,6 +114,10 @@ User.update = async (user, result) => {
   if (user.image) {
     fields.push("image = ?");
     values.push(user.image);
+  }
+  if (user.role) { // Agregar actualización de role
+    fields.push("role = ?");
+    values.push(user.role);
   }
 
   fields.push("updated_at = ?");
