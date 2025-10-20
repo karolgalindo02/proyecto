@@ -17,6 +17,9 @@ const HomeStyles = StyleSheet.create({
   marginTop: 10,
   fontStyle: 'italic',
 },
+   buttonSpacing: {
+    marginTop: 30,
+  },
   logoContainer: {
     position: 'absolute',
     alignSelf: 'center',

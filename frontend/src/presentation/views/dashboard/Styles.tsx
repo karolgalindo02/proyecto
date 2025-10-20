@@ -210,6 +210,9 @@ const DashboardStyles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#e9ecef',
   },
+    buttonSpacing: {
+    marginTop: 30,
+  },
   taskDescription: {
     fontSize: 13,
     color: '#666',

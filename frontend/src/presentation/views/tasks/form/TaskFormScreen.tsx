@@ -7,11 +7,11 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../../App';
+import { RootStackParamList } from '../../../../../App';
 import { useNavigation } from '@react-navigation/native';
-import { CustomModal } from '../../components/CustomModal';
-import { CustomTextInput } from '../../components/CustomTextInput';
-import { RoundedButton } from '../../components/RoundedButton';
+import { CustomModal } from '../../../components/CustomModal';
+import { CustomTextInput } from '../../../components/CustomTextInput';
+import { RoundedButton } from '../../../components/RoundedButton';
 import { useTaskFormViewModel } from './ViewModel';
 import styles from './Styles';
 
@@ -41,13 +41,13 @@ export const TaskFormScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../../assets/chef.jpg')}
+       // source={require('../../../../../assets/equipo.jpg')}
         style={styles.imageBackground}
       />
       
       <View style={styles.headerContainer}>
         <Image
-          source={require('../../../../assets/logo.png')}
+      //    source={require('../../../../../../assets/logo.png')}
           style={styles.logoImage}
         />
         <Text style={styles.headerTitle}>NUEVA TAREA</Text>
@@ -58,7 +58,7 @@ export const TaskFormScreen = () => {
           <Text style={styles.formTitle}>CREAR TAREA</Text>
           
           <CustomTextInput
-            image={require('../../../../assets/task.png')}
+            image={require('../../../../../assets/task.png')}
             placeholder='Nombre de la Tarea*'
             keyboardType='default'
             property='name'
@@ -69,7 +69,7 @@ export const TaskFormScreen = () => {
           />
           
           <CustomTextInput
-            image={require('../../../../assets/description.png')}
+            image={require('../../../../../assets/description.png')}
             placeholder='Descripción*'
             keyboardType='default'
             property='description'
@@ -89,13 +89,13 @@ export const TaskFormScreen = () => {
                     key={project.id}
                     style={[
                       styles.option,
-                      projectId === project.id.toString() && styles.optionSelected
+                      projectId === project.id?.toString() && styles.optionSelected
                     ]}
-                    onPress={() => onChange('projectId', project.id.toString())}
+                    onPress={() => project.id && onChange('projectId', project.id.toString())}
                   >
                     <Text style={[
                       styles.optionText,
-                      projectId === project.id.toString() && styles.optionTextSelected
+                      projectId === (project.id?.toString() ?? '') && styles.optionTextSelected
                     ]}>
                       {project.name}
                     </Text>
@@ -116,13 +116,13 @@ export const TaskFormScreen = () => {
                     key={user.id}
                     style={[
                       styles.option,
-                      assignedTo === user.id.toString() && styles.optionSelected
+                      assignedTo === (user.id?.toString() ?? '') && styles.optionSelected
                     ]}
-                    onPress={() => onChange('assignedTo', user.id.toString())}
+                    onPress={() => onChange('assignedTo', (user.id ?? '').toString())}
                   >
                     <Text style={[
                       styles.optionText,
-                      assignedTo === user.id.toString() && styles.optionTextSelected
+                      assignedTo === (user.id?.toString() ?? '') && styles.optionTextSelected
                     ]}>
                       {user.name} {user.lastname}
                     </Text>
@@ -150,7 +150,7 @@ export const TaskFormScreen = () => {
                     styles.optionText,
                     priority === priorityOption && styles.optionTextSelected
                   ]}>
-                    {priorityOption === 'High' ? 'ALTA' : 
+                    {priorityOption === 'High' ? 'ALTA' :
                      priorityOption === 'Medium' ? 'MEDIA' : 'BAJA'}
                   </Text>
                 </TouchableOpacity>
@@ -159,7 +159,7 @@ export const TaskFormScreen = () => {
           </View>
 
           <CustomTextInput
-            image={require('../../../../assets/progress.png')}
+            image={require('../../../../../assets/progress.png')}
             placeholder='Progreso (%)'
             keyboardType='numeric'
             property='progress'
@@ -170,7 +170,7 @@ export const TaskFormScreen = () => {
           />
 
           <CustomTextInput
-            image={require('../../../../assets/calendar.png')}
+            image={require('../../../../../assets/calendar.png')}
             placeholder='Fecha de Vencimiento (YYYY-MM-DD)'
             keyboardType='default'
             property='dueDate'

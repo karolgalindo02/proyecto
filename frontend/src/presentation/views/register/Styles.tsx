@@ -63,6 +63,9 @@ const RegisterStyles = StyleSheet.create({
     borderBottomColor: '#AAAAAA',
     marginLeft: 15,
   },
+  buttonSpacing: {
+    marginTop: 20,
+  },
   formRegister: {
     flexDirection: 'row',
     justifyContent: 'center',

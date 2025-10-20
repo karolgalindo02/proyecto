@@ -35,13 +35,13 @@ export const ProjectFormScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../../assets/chef.jpg')}
+   //     source={require('../../../../assets/chef.jpg')}
         style={styles.imageBackground}
       />
       
       <View style={styles.headerContainer}>
         <Image
-          source={require('../../../../assets/logo.png')}
+       //   source={require('../../../../assets/logo.jpg')}
           style={styles.logoImage}
         />
         <Text style={styles.headerTitle}>NUEVO PROYECTO</Text>

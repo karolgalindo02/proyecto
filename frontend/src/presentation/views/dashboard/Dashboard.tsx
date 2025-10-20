@@ -26,20 +26,24 @@ export const DashboardScreen = () => {
     modalVisible,
     modalConfig,
     getTasksByStatus,
+    getMyPendingTasks,
+    getUrgentTasks,
     isAdmin,
     onRefresh,
     hideModal
   } = useDashboardViewModel();
 
+  const myPendingTasks = getMyPendingTasks();
+  const urgentTasks = getUrgentTasks();
+  const completedTasks = getTasksByStatus('Completed');
+
   return (
     <View style={styles.container}>
-      {/* Background Image similar to Home */}
       <Image
-        source={require('../../../../assets/chef.jpg')}
+        source={require('../../../../assets/equipo.jpg')}
         style={styles.imageBackground}
       />
       
-      {/* Header Section */}
       <View style={styles.headerContainer}>
         <Image
           source={require('../../../../assets/logo.png')}
@@ -51,7 +55,6 @@ export const DashboardScreen = () => {
         </Text>
       </View>
 
-      {/* Main Content */}
       <View style={styles.dashboardContent}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -71,7 +74,7 @@ export const DashboardScreen = () => {
             </View>
             <View style={styles.statCard}>
               <Text style={styles.statNumber}>
-                {getTasksByStatus('Completed').length}
+                {completedTasks.length}
               </Text>
               <Text style={styles.statLabel}>Completadas</Text>
             </View>
@@ -84,7 +87,7 @@ export const DashboardScreen = () => {
               {isAdmin && (
                 <TouchableOpacity
                   style={styles.actionButton}
-                  onPress={() => navigation.navigate('ProjectCreateScreen')}
+                  onPress={() => navigation.navigate('ProjectCreateScreen' as any)}
                 >
                   <Text style={styles.actionButtonText}>Nuevo Proyecto</Text>
                 </TouchableOpacity>
@@ -92,14 +95,14 @@ export const DashboardScreen = () => {
               
               <TouchableOpacity
                 style={styles.actionButton}
-                onPress={() => navigation.navigate('TaskCreateScreen')}
+                onPress={() => navigation.navigate('TaskCreateScreen' as any)}
               >
                 <Text style={styles.actionButtonText}>Nueva Tarea</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.actionButton}
-                onPress={() => navigation.navigate('TasksScreen')}
+                onPress={() => navigation.navigate('TasksScreen' as any)}
               >
                 <Text style={styles.actionButtonText}>Ver Tareas</Text>
               </TouchableOpacity>
@@ -112,80 +115,84 @@ export const DashboardScreen = () => {
             {projects.length === 0 ? (
               <Text style={styles.emptyText}>No hay proyectos activos</Text>
             ) : (
-              projects.slice(0, 3).map(project => (
-                <TouchableOpacity
-                  key={project.id}
-                  style={styles.projectCard}
-                  onPress={() => navigation.navigate('ProjectDetailScreen', { projectId: project.id })}
-                >
-                  <View style={styles.projectHeader}>
-                    <Text style={styles.projectName}>{project.name}</Text>
-                    <Text style={[
-                      styles.projectStatus,
-                      project.status === 'Completed' ? styles.statusCompleted : styles.statusInProgress
-                    ]}>
-                      {project.status === 'Completed' ? 'COMPLETADO' : 'EN PROGRESO'}
-                    </Text>
-                  </View>
-                  <Text style={styles.projectTeam}>Equipo: {project.team}</Text>
-                  <View style={styles.progressContainer}>
-                    <View style={styles.progressBar}>
-                      <View 
-                        style={[
-                          styles.progressFill, 
-                          { width: `${project.progress}%` }
-                        ]} 
-                      />
+              projects
+                .filter(project => project.status === 'In Progress')
+                .slice(0, 3)
+                .map(project => (
+                  <TouchableOpacity
+                    key={project.id}
+                    style={styles.projectCard}
+                    onPress={() => navigation.navigate('ProjectDetailScreen' as any, { projectId: project.id })}
+                  >
+                    <View style={styles.projectHeader}>
+                      <Text style={styles.projectName}>{project.name}</Text>
+                      <Text style={[
+                        styles.projectStatus,
+                        project.status === 'Completed' ? styles.statusCompleted : styles.statusInProgress
+                      ]}>
+                        {project.status === 'Completed' ? 'COMPLETADO' : 'EN PROGRESO'}
+                      </Text>
                     </View>
-                    <Text style={styles.progressText}>{project.progress}%</Text>
-                  </View>
-                </TouchableOpacity>
-              ))
+                    <Text style={styles.projectTeam}>Equipo: {project.team}</Text>
+                    <View style={styles.progressContainer}>
+                      <View style={styles.progressBar}>
+                        <View 
+                          style={[
+                            styles.progressFill, 
+                            { width: `${project.progress}%` }
+                          ]} 
+                        />
+                      </View>
+                      <Text style={styles.progressText}>{project.progress}%</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))
             )}
           </View>
 
           {/* Pending Tasks Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>MIS TAREAS PENDIENTES</Text>
-            {tasks.filter(task => task.status === 'In Progress').length === 0 ? (
-              <Text style={styles.emptyText}>No tienes tareas pendientes</Text>
+            <Text style={styles.sectionTitle}>
+              {isAdmin ? 'TAREAS PENDIENTES' : 'MIS TAREAS PENDIENTES'}
+            </Text>
+            {myPendingTasks.length === 0 ? (
+              <Text style={styles.emptyText}>
+                {isAdmin ? 'No hay tareas pendientes' : 'No tienes tareas pendientes'}
+              </Text>
             ) : (
-              tasks
-                .filter(task => task.status === 'In Progress')
-                .slice(0, 5)
-                .map(task => (
-                  <TouchableOpacity
-                    key={task.id}
-                    style={[
-                      styles.taskCard,
-                      task.priority === 'High' ? styles.priorityHigh :
-                      task.priority === 'Medium' ? styles.priorityMedium :
-                      styles.priorityLow
-                    ]}
-                    onPress={() => navigation.navigate('TaskDetailScreen', { taskId: task.id })}
-                  >
-                    <View style={styles.taskHeader}>
-                      <Text style={styles.taskName}>{task.name}</Text>
-                      <Text style={styles.taskPriority}>
-                        {task.priority === 'High' ? 'ALTA' : 
-                         task.priority === 'Medium' ? 'MEDIA' : 'BAJA'}
-                      </Text>
-                    </View>
-                    <Text style={styles.taskDescription} numberOfLines={2}>
-                      {task.description}
+              myPendingTasks.map(task => (
+                <TouchableOpacity
+                  key={task.id}
+                  style={[
+                    styles.taskCard,
+                    task.priority === 'High' ? styles.priorityHigh :
+                    task.priority === 'Medium' ? styles.priorityMedium :
+                    styles.priorityLow
+                  ]}
+                  onPress={() => navigation.navigate('TaskDetailScreen' as any, { taskId: task.id })}
+                >
+                  <View style={styles.taskHeader}>
+                    <Text style={styles.taskName}>{task.name}</Text>
+                    <Text style={styles.taskPriority}>
+                      {task.priority === 'High' ? 'ALTA' : 
+                       task.priority === 'Medium' ? 'MEDIA' : 'BAJA'}
                     </Text>
-                    {task.due_date && (
-                      <Text style={styles.dueDate}>
-                        Vence: {new Date(task.due_date).toLocaleDateString()}
-                      </Text>
-                    )}
-                    <View style={styles.taskProgress}>
-                      <Text style={styles.taskProgressText}>
-                        Progreso: {task.progress}%
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                ))
+                  </View>
+                  <Text style={styles.taskDescription} numberOfLines={2}>
+                    {task.description}
+                  </Text>
+                  {task.due_date && (
+                    <Text style={styles.dueDate}>
+                      Vence: {new Date(task.due_date).toLocaleDateString()}
+                    </Text>
+                  )}
+                  <View style={styles.taskProgress}>
+                    <Text style={styles.taskProgressText}>
+                      Progreso: {task.progress}%
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))
             )}
           </View>
 
@@ -194,25 +201,24 @@ export const DashboardScreen = () => {
             <Text style={styles.sectionTitle}>ACTIVIDAD RECIENTE</Text>
             <View style={styles.activityItem}>
               <Text style={styles.activityText}>
-                Tienes {tasks.filter(task => task.status === 'In Progress').length} tareas pendientes
+                {isAdmin 
+                  ? `Total de tareas: ${tasks.length}` 
+                  : `Tus tareas pendientes: ${getTasksByStatus('In Progress').filter(task => task.assigned_to === user?.id).length}`
+                }
               </Text>
             </View>
             <View style={styles.activityItem}>
               <Text style={styles.activityText}>
-                {getTasksByStatus('Completed').length} tareas completadas
+                {isAdmin
+                  ? `Tareas completadas: ${completedTasks.length}`
+                  : `Tus tareas completadas: ${completedTasks.filter(task => task.assigned_to === user?.id).length}`
+                }
               </Text>
             </View>
-            {tasks.filter(task => {
-              if (!task.due_date) return false;
-              const dueDate = new Date(task.due_date);
-              const today = new Date();
-              const diffTime = dueDate.getTime() - today.getTime();
-              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-              return diffDays <= 3 && diffDays >= 0 && task.status === 'In Progress';
-            }).length > 0 && (
+            {urgentTasks.length > 0 && (
               <View style={[styles.activityItem, styles.urgentActivity]}>
                 <Text style={styles.urgentText}>
-                  ⚠ Tienes tareas que vencen pronto
+                  ⚠ {isAdmin ? 'Hay' : 'Tienes'} {urgentTasks.length} tarea(s) que vencen pronto
                 </Text>
               </View>
             )}
@@ -220,7 +226,6 @@ export const DashboardScreen = () => {
         </ScrollView>
       </View>
 
-      {/* Modal */}
       <CustomModal
         visible={modalVisible}
         type={modalConfig.type}

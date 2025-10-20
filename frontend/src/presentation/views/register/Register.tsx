@@ -16,7 +16,7 @@ export const RegisterScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../../assets/chef.jpg')}
+        source={require('../../../../assets/equipo.jpg')}
         style={styles.imageBackground}
       />
       <View style={styles.logoContainer}>
@@ -24,7 +24,7 @@ export const RegisterScreen = () => {
           source={require('../../../../assets/logo.png')}
           style={styles.logoImage}
         />
-        <Text style={styles.logoText}>FOOD APP</Text>
+        <Text style={styles.logoText}>TAKIO APP</Text>
       </View>
       
       <View style={styles.form}>
@@ -100,7 +100,7 @@ export const RegisterScreen = () => {
           />
           
      
-          <View style={{ marginTop: 20 }}>
+          <View style={{ }}>
             <RoundedButton 
               text={loading ? 'REGISTRANDO...' : 'CONFIRMAR REGISTRO'} 
               onPress={register} 

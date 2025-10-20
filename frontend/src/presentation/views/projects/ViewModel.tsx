@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../../App';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CreateProjectUseCase } from '../../../domain/useCases/project/CreateProject';
+import { Project } from '../../../domain/entities/Project';
 
 type ProjectFormNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -42,7 +43,7 @@ export const useProjectFormViewModel = () => {
         break;
       case 'progress': {
         const progressNum = Number.parseInt(value);
-        if (isNaN(progressNum) || progressNum < 0 || progressNum > 100) {
+        if (Number.isNaN(progressNum) || progressNum < 0 || progressNum > 100) {
           error = 'El progreso debe ser entre 0 y 100';
         }
         break;
@@ -60,9 +61,8 @@ export const useProjectFormViewModel = () => {
       progress: '',
     };
 
-    // Validar progreso
-    const progressNum = parseInt(values.progress);
-    if (isNaN(progressNum) || progressNum < 0 || progressNum > 100) {
+    const progressNum = Number.parseInt(values.progress);
+    if (Number.isNaN(progressNum) || progressNum < 0 || progressNum > 100) {
       newErrors.progress = 'El progreso debe ser entre 0 y 100';
     }
 
@@ -92,33 +92,26 @@ export const useProjectFormViewModel = () => {
     setLoading(true);
 
     try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await fetch('http://tu-api/projects', {
-        method: 'POST',
-        headers: {
-          'Authorization': token || '',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: values.name,
-          team: values.team,
-          progress: parseInt(values.progress),
-          status: 'In Progress'
-        })
-      });
+      const projectData: Project = {
+        name: values.name,
+        team: values.team,
+        progress: Number.parseInt(values.progress),
+        status: 'In Progress'
+      };
 
-      const data = await response.json();
+      const response = await CreateProjectUseCase(projectData);
 
-      if (response.ok && data.success) {
+      if (response.success) {
         showModal('success', '¡Éxito!', 'Proyecto creado correctamente');
         setTimeout(() => {
           navigation.navigate('DashboardScreen' as any);
         }, 1500);
       } else {
-        showModal('error', 'Error', data.message || 'No se pudo crear el proyecto');
+        showModal('error', 'Error', response.message || 'No se pudo crear el proyecto');
       }
-    } catch (error) {
-      showModal('error', 'Error de conexión', 'No se pudo conectar con el servidor');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || error.message || 'Error de conexión';
+      showModal('error', 'Error', errorMessage);
     } finally {
       setLoading(false);
     }

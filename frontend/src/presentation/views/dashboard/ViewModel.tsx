@@ -1,43 +1,10 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// Interfaces TypeScript
-interface User {
-  id: number;
-  name: string;
-  lastname: string;
-  email: string;
-  phone: string;
-  image: string;
-  role: 'admin' | 'user';
-  session_token: string;
-}
-
-interface Project {
-  id: number;
-  name: string;
-  team: string;
-  progress: number;
-  status: 'In Progress' | 'Completed';
-  created_at: string;
-  updated_at: string;
-}
-
-interface Task {
-  id: number;
-  name: string;
-  description: string;
-  project_id: number;
-  assigned_to: number;
-  progress: number;
-  priority: 'Low' | 'Medium' | 'High';
-  due_date: string;
-  status: 'In Progress' | 'Completed';
-  created_at: string;
-  updated_at: string;
-  project_name?: string;
-  assigned_user_name?: string;
-}
+import { GetAllProjectsUseCase } from '../../../domain/useCases/project/GetAllProjects';
+import { GetAllTasksUseCase } from '../../../domain/useCases/task/GetAllTask';
+import { User } from '../../../domain/entities/User';
+import { Project } from '../../../domain/entities/Project';
+import { Task } from '../../../domain/entities/Task';
 
 export const useDashboardViewModel = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -63,65 +30,49 @@ export const useDashboardViewModel = () => {
   };
 
   const loadUserData = async () => {
-    try {
+
       const userData = await AsyncStorage.getItem('user');
       if (userData) {
         const userObj: User = JSON.parse(userData);
         setUser(userObj);
       }
-    } catch (error) {
-      showModal('error', 'Error', 'No se pudo cargar la información del usuario');
-    }
   };
 
   const loadProjects = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await fetch('http://tu-api/projects', {
-        headers: {
-          'Authorization': token || '',
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setProjects(data.data || []);
+
+      const response = await GetAllProjectsUseCase();
+      if (response.success) {
+        setProjects(response.data || []);
       } else {
-        throw new Error('Error en la respuesta del servidor');
+        throw new Error(response.message || 'Error al cargar proyectos');
       }
-    } catch (error: unknown) {
-      console.error('Error loading projects:');
-      showModal('error', 'Error', 'No se pudieron cargar los proyectos');
-    }
   };
 
   const loadTasks = async () => {
     try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await fetch('http://tu-api/tasks', {
-        headers: {
-          'Authorization': token || '',
-          'Content-Type': 'application/json'
-        }
-      });
+      const response = await GetAllTasksUseCase();
       
-      if (response.ok) {
-        const data = await response.json();
-        setTasks(data.data || []);
+      if (response.success) {
+        // Filtrar tareas según el rol del usuario
+        let tasksData = response.data || [];
+        
+        if (user?.role === 'user') {
+          tasksData = tasksData.filter((task: Task) => task.assigned_to === user.id);
+        }
+        
+        setTasks(tasksData);
       } else {
-        throw new Error('Error en la respuesta del servidor');
+        throw new Error(response.message || 'Error al cargar tareas');
       }
-    } catch (error) {
-      console.error('Error loading tasks:', error);
-      showModal('error', 'Error', 'No se pudieron cargar las tareas');
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || error?.message || 'No se pudieron cargar las tareas';
+      showModal('error', 'Error', errorMessage);
     }
   };
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await Promise.all([loadProjects(), loadTasks()]);
-    setRefreshing(false);
+      await Promise.all([loadProjects(), loadTasks()]);
   };
 
   const showModal = (type: 'success' | 'error' | 'warning' | 'info', title: string, message: string) => {
@@ -137,6 +88,28 @@ export const useDashboardViewModel = () => {
     return tasks.filter(task => task.status === status);
   };
 
+  const getMyPendingTasks = (): Task[] => {
+    if (user?.role === 'admin') {
+      return tasks.filter(task => task.status === 'In Progress').slice(0, 5);
+    } else {
+      return tasks
+        .filter(task => task.status === 'In Progress' && task.assigned_to === user?.id)
+        .slice(0, 5);
+    }
+  };
+
+  const getUrgentTasks = (): Task[] => {
+    const today = new Date();
+    return tasks.filter(task => {
+      if (!task.due_date || task.status === 'Completed') return false;
+      
+      const dueDate = new Date(task.due_date);
+      const diffTime = dueDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays <= 3 && diffDays >= 0;
+    });
+  };
+
   const isAdmin = user?.role === 'admin';
 
   return {
@@ -150,12 +123,12 @@ export const useDashboardViewModel = () => {
     
     // Getters
     getTasksByStatus,
+    getMyPendingTasks,
+    getUrgentTasks,
     isAdmin,
     
     // Actions
     onRefresh,
-    hideModal,
-    loadTasks,
-    loadProjects
+    hideModal
   };
-}
+};

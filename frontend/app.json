@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Food App",
-    "slug": "food-app",
+    "name": "Takio App",
+    "slug": "takio-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

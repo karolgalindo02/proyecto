@@ -1,21 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../../App';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootStackParamList } from '../../../../../App';
+import { CreateTaskUseCase } from '../../../../domain/useCases/task/CreateTask';
+import { GetAllProjectsUseCase } from '../../../../domain/useCases/project/GetAllProjects';
+import { GetAllUsersUseCase } from '../../../../domain/useCases/user/GetAllUsers';
+import { Task} from '../../../../domain/entities/Task';
+import { Project } from '../../../../domain/entities/Project';
+import { User } from '../../../../domain/entities/User';
 
 type TaskFormNavigationProp = StackNavigationProp<RootStackParamList>;
-
-interface Project {
-  id: number;
-  name: string;
-}
-
-interface User {
-  id: number;
-  name: string;
-  lastname: string;
-}
 
 export const useTaskFormViewModel = () => {
   const [values, setValues] = useState({
@@ -24,7 +18,7 @@ export const useTaskFormViewModel = () => {
     projectId: '',
     assignedTo: '',
     progress: '0',
-    priority: 'Medium',
+    priority: 'Medium' as 'Medium' | 'Low' | 'High',
     dueDate: '',
   });
 
@@ -56,41 +50,13 @@ export const useTaskFormViewModel = () => {
   }, []);
 
   const loadProjects = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await fetch('http://tu-api/projects', {
-        headers: {
-          'Authorization': token || '',
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setProjects(data.data || []);
-      }
-    } catch (error) {
-      console.error('Error loading projects:', error);
-    }
+      const response = await GetAllProjectsUseCase();
+      setProjects(response.data || []);
   };
 
   const loadUsers = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await fetch('http://tu-api/users', {
-        headers: {
-          'Authorization': token || '',
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data.data || []);
-      }
-    } catch (error) {
-      console.error('Error loading users:', error);
-    }
+      const response = await GetAllUsersUseCase();
+      setUsers(response.data || []);
   };
 
   const validateField = (field: string, value: string) => {
@@ -112,7 +78,7 @@ export const useTaskFormViewModel = () => {
         break;
       case 'progress': {
         const progressNum = Number.parseInt(value);
-        if (isNaN(progressNum) || progressNum < 0 || progressNum > 100) {
+        if (Number.isNaN(progressNum) || progressNum < 0 || progressNum > 100) {
           error = 'El progreso debe ser entre 0 y 100';
         }
         break;
@@ -130,28 +96,26 @@ export const useTaskFormViewModel = () => {
 
   const isValidDate = (dateString: string): boolean => {
     const regex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateString.match(regex)) return false;
+    if (!regex.exec(dateString)) return false;
     const date = new Date(dateString);
-    return date instanceof Date && !isNaN(date.getTime());
+    return date instanceof Date && !Number.isNaN(date.getTime());
   };
 
   const validateAllFields = () => {
     const newErrors = {
-      name: !values.name.trim() ? 'El nombre de la tarea es requerido' : '',
-      description: !values.description.trim() ? 'La descripción es requerida' : '',
-      projectId: !values.projectId ? 'Debes seleccionar un proyecto' : '',
-      assignedTo: !values.assignedTo ? 'Debes asignar la tarea a un usuario' : '',
+      name: values.name.trim() === '' ? 'El nombre de la tarea es requerido' : '',
+      description: values.description.trim() === '' ? 'La descripción es requerida' : '',
+      projectId: values.projectId ? '' : 'Debes seleccionar un proyecto',
+      assignedTo: values.assignedTo === '' ? 'Debes asignar la tarea a un usuario' : '',
       progress: '',
       dueDate: '',
     };
 
-    // Validar progreso
-    const progressNum = parseInt(values.progress);
-    if (isNaN(progressNum) || progressNum < 0 || progressNum > 100) {
+    const progressNum = Number.parseInt(values.progress);
+    if (Number.isNaN(progressNum) || progressNum < 0 || progressNum > 100) {
       newErrors.progress = 'El progreso debe ser entre 0 y 100';
     }
 
-    // Validar fecha
     if (values.dueDate && !isValidDate(values.dueDate)) {
       newErrors.dueDate = 'La fecha debe tener el formato YYYY-MM-DD';
     }
@@ -182,40 +146,30 @@ export const useTaskFormViewModel = () => {
     setLoading(true);
 
     try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await fetch('http://tu-api/tasks', {
-        method: 'POST',
-        headers: {
-          'Authorization': token || '',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: values.name,
-          description: values.description,
-          project_id: Number.parseInt(values.projectId),
-          assigned_to: Number.parseInt(values.assignedTo),
-          progress: Number.parseInt(values.progress),
-          priority: values.priority,
-          due_date: values.dueDate || null,
-          status: 'In Progress'
-        })
-      });
+      const taskData: Task = {
+        name: values.name,
+        description: values.description,
+        project_id: Number.parseInt(values.projectId),
+        assigned_to: Number.parseInt(values.assignedTo),
+        progress: Number.parseInt(values.progress),
+        priority: values.priority,
+        due_date: values.dueDate || null,
+        status: 'In Progress'
+      };
 
-      const data = await response.json();
+      const response = await CreateTaskUseCase(taskData);
 
-      if (response.ok && data.success) {
+      if (response.success) {
         showModal('success', '¡Éxito!', 'Tarea creada correctamente');
         setTimeout(() => {
           navigation.navigate('DashboardScreen' as any);
         }, 1500);
       } else {
-        showModal('error', 'Error', data.message || 'No se pudo crear la tarea');
+        showModal('error', 'Error', response.message || 'No se pudo crear la tarea');
       }
-    } catch (error: unknown) {
-      console.error('Error creating task:', error);
-      let userMessage = 'No se pudo conectar con el servidor';
-      if (error instanceof Error && error.message) userMessage = error.message;
-      showModal('error', 'Error de conexión', userMessage);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || error.message || 'Error de conexión';
+      showModal('error', 'Error', errorMessage);
     } finally {
       setLoading(false);
     }

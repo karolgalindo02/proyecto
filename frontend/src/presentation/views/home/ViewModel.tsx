@@ -81,16 +81,12 @@ const HomeViewModel = () => {
       
       if (response.success) {
         // Guardar token y usuario en AsyncStorage
-        try {
           if (response.data?.session_token) {
             await AsyncStorage.setItem('token', response.data.session_token);
           }
           if (response.data) {
             await AsyncStorage.setItem('user', JSON.stringify(response.data));
           }
-        } catch (storageError) {
-          console.error('AsyncStorage save error:', storageError);
-          // continuar aunque falle el guardado local
         }
 
         // Navegar al Dashboard y limpiar historial de navegación
@@ -101,11 +97,8 @@ const HomeViewModel = () => {
 
         // Mostrar confirmación al usuario
         showModal('success', '¡Login exitoso!', `Bienvenido ${response.data?.name || 'Usuario'}`);
-      } else {
-        showModal('error', 'Error en el login', response.message || 'Credenciales incorrectas');
-      }
+
     } catch (error: unknown) {
-      console.error('Login error:', error);
       let message = 'No se pudo conectar con el servidor';
       if (error instanceof Error && error.message) message = error.message;
       showModal('error', 'Error de conexión', message);

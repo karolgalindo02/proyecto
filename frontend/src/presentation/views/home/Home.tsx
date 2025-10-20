@@ -18,7 +18,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../../assets/chef.jpg')}
+        source={require('../../../../assets/equipo.jpg')}
         style={styles.imageBackground}
       />
       <View style={styles.logoContainer}>
@@ -26,7 +26,7 @@ export const HomeScreen: React.FC = () => {
           source={require('../../../../assets/logo.png')}
           style={styles.logoImage}
         />
-        <Text style={styles.logoText}>FOOD APP</Text>
+        <Text style={styles.logoText}> APP</Text>
       </View>
       <View style={styles.form}>
         <Text style={styles.formText}>INGRESAR</Text>
@@ -54,7 +54,7 @@ export const HomeScreen: React.FC = () => {
           showError={true}
         />
         
-        <View style={{ marginTop: 30 }}>
+        <View style={{ ...styles.buttonSpacing }}>
           <RoundedButton 
             text={loading ? 'INICIANDO SESIÓN...' : 'INICIAR SESIÓN'} 
             onPress={login}

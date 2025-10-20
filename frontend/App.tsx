@@ -5,7 +5,8 @@ import { HomeScreen } from "./src/presentation/views/home/Home";
 import { RegisterScreen } from "./src/presentation/views/register/Register";
 import { DashboardScreen } from "./src/presentation/views/dashboard/Dashboard";
 import { ProjectFormScreen } from "./src/presentation/views/projects/ProjectFormScreen";
-import { TaskFormScreen } from "./src/presentation/views/tasks/TaskFormScreen";
+import { TaskFormScreen } from "./src/presentation/views/tasks/form/TaskFormScreen";
+import { TasksScreen } from "./src/presentation/views/tasks/view/TasksScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -41,6 +42,7 @@ const App = () => {
           component={ProjectFormScreen}
         />
         <Stack.Screen name="TaskCreateScreen" component={TaskFormScreen} />
+        <Stack.Screen name="TasksScreen" component={TasksScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
