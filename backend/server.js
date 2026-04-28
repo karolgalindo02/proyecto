@@ -1,46 +1,44 @@
-// server.js
+require('dotenv').config();
+
+const path = require('path');
 const express = require('express');
-const logger = require('morgan');
 const cors = require('cors');
-const usersRoutes = require('./routes/userRoutes');
-const taskRoutes = require('./routes/taskRoutes');
-const projectRoutes = require('./routes/projectRoutes');
+const morgan = require('morgan');
+const passport = require('./config/passport');
+
+const authRoutes = require('./routes/auth.routes');
+const projectRoutes = require('./routes/project.routes');
+const taskRoutes = require('./routes/task.routes');
+const chatbotRoutes = require('./routes/chatbot.routes');
+const notificationRoutes = require('./routes/notification.routes');
+const userRoutes = require('./routes/user.routes');
+
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Middlewares globales
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+app.use(passport.initialize());
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
-// Rutas
-app.use('/api/users', usersRoutes);
+app.get('/api/health', (_req, res) => res.json({ ok: true, service: 'takio' }));
 
-// Módulo de Tareas
-app.use('/api/tasks', taskRoutes);
-
-// Módulo de Proyectos
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/chatbot', chatbotRoutes);
+app.use('/api/notifications', notificationRoutes);
 
-// Endpoints de prueba
-app.get('/', (req, res) => {
-  res.send('Ruta raíz del Backend');
+app.use((req, res) => res.status(404).json({ success: false, message: 'Ruta no encontrada' }));
+
+app.use((err, _req, res, _next) => {
+  console.error('Error global:', err.message);
+  res.status(err.status || 500).json({ success: false, message: err.message || 'Error servidor' });
 });
 
-app.get('/test', (req, res) => {
-  res.send('Ruta TEST');
+app.listen(PORT, () => {
+  console.log(`🚀 Takio backend corriendo en http://localhost:${PORT}`);
 });
-
-// Manejo de errores
-app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(err.status || 500).send(err.stack);
-});
-
-app.listen(3000, () => {
-  console.log('Servidor escuchando en el puerto 3000');
-});
-
-// Exportamos la app para que la use index.js
-module.exports = app;
-

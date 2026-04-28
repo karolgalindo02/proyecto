@@ -1,15 +1,19 @@
+export type TaskStatus = 'PENDING' | 'IN_PROGRESS' | 'DONE';
+export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH';
+
 export interface Task {
-  id?: number;
-  name: string;
+  id: number;
+  title: string;
   description: string;
-  project_id: number;
-  assigned_to: number;
+  project_id: number | null;
+  project_name?: string | null;
+  created_by: number;
+  assigned_to: number | null;
   progress: number;
-  priority: 'Low' | 'Medium' | 'High';
+  priority: TaskPriority;
+  status: TaskStatus;
   due_date: string | null;
-  status: 'In Progress' | 'Completed';
+  due_time: string | null;
   created_at?: string;
   updated_at?: string;
-  project_name?: string;
-  assigned_user_name?: string;
 }

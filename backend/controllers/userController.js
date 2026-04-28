@@ -1,161 +1,72 @@
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const keys = require('../config/keys');
+const fs = require('fs');
+const path = require('path');
+const pool = require('../config/db');
 
-module.exports = {
-  login(req, res) {
-    const email = req.body.email;
-    const password = req.body.password;
+// POST /api/users/me/image  (multipart/form-data, field name: \"image\")
+exports.uploadImage = async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ success: false, message: 'No se envió imagen' });
 
-    User.findByEmail(email, async (err, myUser) => {
-      if (err) {
-        return res.status(501).json({
-          success: false,
-          message: 'Error al consultar el usuario',
-          error: err
-        });
-      }
+    // ruta pública servida por express.static
+    const publicPath = `/uploads/avatars/${req.file.filename}`;
 
-      if (!myUser) {
-        return res.status(401).json({
-          success: false,
-          message: 'El email no existe en la base de datos'
-        });
-      }
-
-      const isPasswordValid = await bcrypt.compare(password, myUser.password);
-
-      if (isPasswordValid) {
-        const token = jwt.sign(
-          { id: myUser.id, email: myUser.email, role: myUser.role },
-          keys.secretOrKey,
-          { expiresIn: '1h' }
-        );
-
-        const data = {
-          id: myUser.id,
-          email: myUser.email,
-          name: myUser.name,
-          lastname: myUser.lastname,
-          image: myUser.image,
-          phone: myUser.phone,
-          role: myUser.role,
-          session_token: `JWT ${token}`
-        };
-
-        return res.status(201).json({
-          success: true,
-          message: 'Usuario autenticado',
-          data: data
-        });
-      } else {
-        return res.status(401).json({
-          success: false,
-          message: 'Contraseña o correo incorrecto'
-        });
-      }
-    });
-  },
-
-  getAllUsers(req, res) {
-    User.findAll((err, users) => {
-      if (err) {
-        return res.status(501).json({
-          success: false,
-          message: 'Error al listar usuarios',
-          error: err
-        });
-      }
-      return res.status(200).json({
-        success: true,
-        message: 'Lista de usuarios',
-        data: users
-      });
-    });
-  },
-
-  getUserById(req, res) {
-    const id = req.params.id;
-    User.findById(id, (err, user) => {
-      if (err) {
-        return res.status(501).json({
-          success: false,
-          message: 'Error al consultar el usuario',
-          error: err
-        });
-      }
-      if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: 'Usuario no encontrado'
-        });
-      }
-      return res.status(200).json({
-        success: true,
-        message: 'Usuario encontrado',
-        data: user
-      });
-    });
-  },
-
-  register(req, res) {
-    const user = req.body;
-    
-    if (!user.role) {
-      user.role = 'user';
+    // borrar la imagen anterior si existe (best effort)
+    const [rows] = await pool.query('SELECT image FROM users WHERE id = ?', [req.user.id]);
+    const oldImage = rows[0]?.image;
+    if (oldImage && oldImage.startsWith('/uploads/avatars/')) {
+      const oldFsPath = path.join(__dirname, '..', '..', oldImage);
+      fs.unlink(oldFsPath, () => { /* ignora errores */ });
     }
 
-    User.create(user, (err, data) => {
-      if (err) {
-        return res.status(501).json({
-          success: false,
-          message: 'Error al crear al usuario',
-          error: err
-        });
-      } else {
-        return res.status(201).json({
-          success: true,
-          message: 'Usuario creado correctamente',
-          data: data
-        });
-      }
-    });
-  },
+    await pool.query('UPDATE users SET image = ? WHERE id = ?', [publicPath, req.user.id]);
+    const [updated] = await pool.query(
+      'SELECT id, email, name, lastname, phone, image, created_at FROM users WHERE id = ?',
+      [req.user.id]
+    );
+    return res.json({ success: true, data: { user: updated[0], image: publicPath } });
+  } catch (err) {
+    console.error('uploadImage', err);
+    return res.status(500).json({ success: false, message: err.message || 'Error subiendo imagen' });
+  }
+};
 
-  getUserUpdate(req, res) {
-    const user = req.body;
-    User.update(user, (err, data) => {
-      if (err) {
-        return res.status(501).json({
-          success: false,
-          message: 'Error al actualizar el usuario',
-          error: err
-        });
-      }
-      return res.status(200).json({
-        success: true,
-        message: 'Usuario actualizado',
-        data: data
-      });
-    });
-  },
+// DELETE /api/users/me/image
+exports.removeImage = async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT image FROM users WHERE id = ?', [req.user.id]);
+    const oldImage = rows[0]?.image;
+    if (oldImage && oldImage.startsWith('/uploads/avatars/')) {
+      const oldFsPath = path.join(__dirname, '..', '..', oldImage);
+      fs.unlink(oldFsPath, () => {});
+    }
+    await pool.query('UPDATE users SET image = NULL WHERE id = ?', [req.user.id]);
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('removeImage', err);
+    return res.status(500).json({ success: false, message: 'Error' });
+  }
+};
 
-  getUserDelete(req, res) {
-    const id = req.params.id;
-    User.delete(id, (err, data) => {
-      if (err) {
-        return res.status(501).json({
-          success: false,
-          message: 'Error al eliminar el usuario',
-          error: err
-        });
-      }
-      return res.status(200).json({
-        success: true,
-        message: 'Usuario eliminado',
-        data: data
-      });
-    });
+// PUT /api/users/me — actualizar nombre / apellido / teléfono
+exports.updateProfile = async (req, res) => {
+  try {
+    const { name, lastname, phone } = req.body;
+    const updates = [];
+    const values = [];
+    if (name !== undefined)     { updates.push('name = ?');     values.push(String(name).slice(0, 90)); }
+    if (lastname !== undefined) { updates.push('lastname = ?'); values.push(String(lastname).slice(0, 90)); }
+    if (phone !== undefined)    { updates.push('phone = ?');    values.push(phone ? String(phone).slice(0, 20) : null); }
+    if (!updates.length) return res.json({ success: true, data: { user: req.user } });
+
+    values.push(req.user.id);
+    await pool.query(`UPDATE users SET ${updates.join(', ')} WHERE id = ?`, values);
+    const [rows] = await pool.query(
+      'SELECT id, email, name, lastname, phone, image, created_at FROM users WHERE id = ?',
+      [req.user.id]
+    );
+    return res.json({ success: true, data: { user: rows[0] } });
+  } catch (err) {
+    console.error('updateProfile', err);
+    return res.status(500).json({ success: false, message: 'Error' });
   }
 };

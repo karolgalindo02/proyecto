@@ -1,4 +1,4 @@
-const db = require('../config/config');
+const db = require('../config');
 const bcrypt = require('bcryptjs');
 const User = {};
 

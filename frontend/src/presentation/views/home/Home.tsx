@@ -6,15 +6,12 @@ import { CustomTextInput } from '../../components/CustomTextInput';
 import { CustomModal } from '../../components/CustomModal';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../../App';
 import useViewModel from './ViewModel';
 
-type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 
 export const HomeScreen: React.FC = () => {
   const { email, password, errors, loading, modalVisible, modalConfig, onChange, login, setModalVisible } = useViewModel();
-  const navigation = useNavigation<HomeNavigationProp>();
-
   return (
     <View style={styles.container}>
       <Image
