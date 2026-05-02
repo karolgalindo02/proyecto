@@ -1,0 +1,31 @@
+# --- API Keys y Secretos ---
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# --- Dependencias ---
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# --- Logs y Debug ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.log
+
+# --- IDEs y Editores ---
+.vscode/
+.idea/
+*.swp
+*.sw
+.DS_Store
+
+# --- Compilación y Build ---
+backend/dist/
+frontend/dist/
+frontend/build/
+.expo/
+*.exe

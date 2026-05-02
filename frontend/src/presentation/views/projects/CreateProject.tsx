@@ -6,6 +6,7 @@ import { TopBar } from '../../components/TopBar';
 import { AppColors, colorToBg } from '../../theme/AppTheme';
 import { ProjectRepository } from '../../../data/repositories/ProjectRepository';
 import { formatApiError } from '../../../data/sources/remote/api/ApiDelivery';
+import  { BackgroundBlobs } from '../../components/BackgroundBlobs';
 
 const COLORS: Array<{ id: string; label: string }> = [
   { id: 'lavender', label: 'Work' },
@@ -54,7 +55,8 @@ Compártelo para que otros se unan.`,
   const cur = colorToBg[form.color] || colorToBg.lavender;
 
   return (
-    <View style={{ flex: 1, backgroundColor: AppColors.background }}>
+           <View style={{ flex: 1 }}>
+             <BackgroundBlobs />
       <TopBar back title="Add Project" />
       <ScrollView contentContainerStyle={{ padding: 20, gap: 14, paddingBottom: 60 }}>
         {/* Task Group (categoría/color) */}
@@ -82,7 +84,7 @@ Compártelo para que otros se unan.`,
                     borderWidth: active ? 2 : 0, borderColor: cb.text,
                   }}
                 >
-                  <Text style={{ color: cb.text, fontWeight: '700', fontSize: 12 }}>{c.label}</Text>
+                  <Text style={{ color: cb.text, fontFamily: 'LexendDeca-SemiBold', fontSize: 12 }}>{c.label}</Text>
                 </Pressable>
               );
             })}
@@ -161,14 +163,14 @@ const styles = StyleSheet.create({
     shadowColor: AppColors.primary, shadowOpacity: 0.05, shadowRadius: 10, elevation: 2,
   },
   iconBox: { width: 40, height: 40, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  label: { fontSize: 11, color: AppColors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5, fontWeight: '800' },
-  titleInput: { fontSize: 18, fontWeight: '800', color: AppColors.text, paddingVertical: 4 },
-  textArea: { fontSize: 14, color: AppColors.text, minHeight: 80, paddingVertical: 6, textAlignVertical: 'top' },
-  value: { fontWeight: '700', color: AppColors.text, fontSize: 15, marginTop: 4 },
+  label: { fontSize: 11, color: AppColors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'LexendDeca-SemiBold' },
+  titleInput: { fontSize: 18, fontFamily: 'LexendDeca-SemiBold', color: AppColors.text, paddingVertical: 4 },
+  textArea: { fontFamily: 'LexendDeca',fontSize: 14, color: AppColors.text, minHeight: 80, paddingVertical: 6, textAlignVertical: 'top' },
+  value: { fontFamily: 'LexendDeca-SemiBold', color: AppColors.text, fontSize: 15, marginTop: 4 },
   rowBetween: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   submit: {
     backgroundColor: AppColors.primary, paddingVertical: 18, borderRadius: 999, alignItems: 'center', marginTop: 10,
     shadowColor: AppColors.primary, shadowOpacity: 0.3, shadowRadius: 14,
   },
-  submitText: { color: '#FFF', fontSize: 17, fontWeight: '800' },
+  submitText: { color: '#FFF', fontSize: 17, fontFamily: 'LexendDeca-SemiBold' },
 });

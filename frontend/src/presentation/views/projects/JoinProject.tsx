@@ -37,8 +37,8 @@ Rol: ${project.role}`,
           <View style={{ width: 80, height: 80, borderRadius: 20, backgroundColor: AppColors.primaryLight, alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
             <Feather name="key" size={36} color={AppColors.primary} />
           </View>
-          <Text style={{ fontSize: 20, fontWeight: '800', color: AppColors.text }}>Ingresa el código</Text>
-          <Text style={{ color: AppColors.textSecondary, marginTop: 6, textAlign: 'center' }}>
+          <Text style={{ fontFamily: 'LexendDeca-Bold', fontSize: 20, color: AppColors.text }}>Ingresa el código</Text>
+          <Text style={{ fontFamily: 'LexendDeca', color: AppColors.textSecondary, marginTop: 6, textAlign: 'center' }}>
             Pídele al admin el código de 6 caracteres de su proyecto
           </Text>
         </View>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF', borderRadius: 22, padding: 20,
     shadowColor: AppColors.primary, shadowOpacity: 0.06, shadowRadius: 12, elevation: 3,
   },
-  label: { fontSize: 11, color: AppColors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5, fontWeight: '800' },
+  label: { fontFamily: 'LexendDeca-SemiBold', fontSize: 11, color: AppColors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 },
   codeInput: {
     fontSize: 32, fontWeight: '800', color: AppColors.text,
     textAlign: 'center', letterSpacing: 8, marginTop: 14, paddingVertical: 6,
@@ -78,5 +78,5 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.primary, paddingVertical: 18, borderRadius: 999, alignItems: 'center',
     shadowColor: AppColors.primary, shadowOpacity: 0.3, shadowRadius: 14,
   },
-  submitText: { color: '#FFF', fontSize: 17, fontWeight: '800' },
+  submitText: { color: '#FFF', fontSize: 17, fontFamily: 'LexendDeca-SemiBold' },
 });

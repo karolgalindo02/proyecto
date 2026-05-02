@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ApiDelivery } from '../../../data/sources/remote/api/ApiDelivery';
 import { AppColors } from '../../theme/AppTheme';
 
-const HERO = 'https://images.pexels.com/photos/7674843/pexels-photo-7674843.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
+const HERO = require('../../../../assets/hero.jpg');
 
 export const LoginScreen: React.FC<any> = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -60,13 +60,16 @@ export const LoginScreen: React.FC<any> = ({ navigation }) => {
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1, backgroundColor: AppColors.background }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
         
-        <View style={styles.heroWrap}>
-          <Image source={{ uri: HERO }} style={styles.hero} />
+     
+          <Image source={HERO} style={styles.hero} />
           <View style={styles.logoFloat}>
-            <View style={{ width: 28, height: 28, borderRadius: 8, backgroundColor: AppColors.primary, marginRight: 8 }} />
-            <Text style={styles.logo}>Takio</Text>
+                      <Image
+                      source={require ('../../../../assets/Takio-Logo2.png')}
+                      style={{ width: 400, height: 50, marginBottom: 24 }}
+                      resizeMode="contain"
+                    />
           </View>
-        </View>
+  
 
         <View style={styles.sheet}>
           <Text style={styles.title}>Ingresar</Text>
@@ -123,40 +126,37 @@ export const LoginScreen: React.FC<any> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  heroWrap: { height: 280, position: 'relative' },
-  hero: { width: '100%', height: '100%' },
+  hero: { width: '100%', height: '80%' },
 
   logoFloat: {
     position: 'absolute',
-    top: 40,
+    top: 250,
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFFEE',
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 16,
   },
 
-  logo: { fontSize: 20, fontWeight: '800', color: AppColors.text },
-
   sheet: {
-    backgroundColor: '#FFF',
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    padding: 28,
-    marginTop: -32,
-    gap: 8,
-    flex: 1,
-    paddingBottom: 40,
+    width: '100%',
+    height: '50%',
+    backgroundColor: '#F5F5F6',
+    position: 'absolute',
+    bottom: 0,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    padding: 30,
     shadowColor: '#000',
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.1,
     shadowRadius: 20,
+    elevation: 10,
   },
 
-  title: { fontSize: 28, fontWeight: '800', color: AppColors.text, marginBottom: 16 },
+  title: { fontFamily: 'LexendDeca-Bold', fontSize: 28, color: AppColors.text, marginBottom: 12 },
 
-  label: { fontSize: 13, color: AppColors.textSecondary, marginTop: 8, fontWeight: '600' },
+  label: { fontFamily: 'LexendDeca', fontSize: 16, color: AppColors.textSecondary, marginTop: 10, marginBottom: 10, fontWeight: '600' },
 
   inputWrap: {
     flexDirection: 'row',
@@ -164,13 +164,13 @@ const styles = StyleSheet.create({
     gap: 10,
     backgroundColor: '#F8F9FA',
     borderWidth: 1,
-    borderColor: '#EEE',
+    borderColor: '#CAB8FF',
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: Platform.OS === 'ios' ? 14 : 4,
   },
 
-  input: { flex: 1, fontSize: 15, color: AppColors.text, paddingVertical: 10 },
+  input: { fontFamily: 'LexendDeca', flex: 1, fontSize: 15, color: AppColors.text, paddingVertical: 10 },
 
   cta: {
     marginTop: 20,
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
   },
 
-  ctaText: { color: '#FFF', fontWeight: '700', fontSize: 17 },
+  ctaText: { color: '#FFF', fontFamily: 'LexendDeca-SemiBold', fontSize: 17 },
 
-  helper: { textAlign: 'center', color: AppColors.textSecondary, marginTop: 14 },
+  helper: { textAlign: 'center', fontFamily: 'LexendDeca', color: AppColors.textSecondary, marginTop: 14 },
 });

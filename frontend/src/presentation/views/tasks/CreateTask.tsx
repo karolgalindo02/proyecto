@@ -10,6 +10,7 @@ import { TaskRepository } from '../../../data/repositories/TaskRepository';
 import { ProjectRepository } from '../../../data/repositories/ProjectRepository';
 import { Project } from '../../../domain/entities/Project';
 import { formatApiError } from '../../../data/sources/remote/api/ApiDelivery';
+import { BackgroundBlobs } from '../../components/BackgroundBlobs';
 
 export const CreateTaskScreen: React.FC<any> = ({ navigation, route }) => {
   const initialDate = route.params?.date ? new Date(route.params.date) : new Date();
@@ -61,7 +62,8 @@ export const CreateTaskScreen: React.FC<any> = ({ navigation, route }) => {
   const selectedProject = projects.find((p) => p.id === projectId);
 
   return (
-    <View style={{ flex: 1, backgroundColor: AppColors.background }}>
+        <View style={{ flex: 1 }}>
+          <BackgroundBlobs />
       <TopBar back title="Nueva Tarea" />
       <ScrollView contentContainerStyle={{ padding: 20, gap: 14, paddingBottom: 60 }}>
         {/* Título */}
@@ -122,7 +124,7 @@ export const CreateTaskScreen: React.FC<any> = ({ navigation, route }) => {
         <View style={styles.card}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={styles.label}>Progreso</Text>
-            <Text style={{ color: AppColors.primary, fontWeight: '800', fontSize: 18 }}>{progress}%</Text>
+            <Text style={{ color: AppColors.primary, fontFamily: 'LexendDeca-SemiBold', fontSize: 18 }}>{progress}%</Text>
           </View>
           <Slider
             minimumValue={0}
@@ -158,7 +160,7 @@ export const CreateTaskScreen: React.FC<any> = ({ navigation, route }) => {
                     backgroundColor: active ? color : bg,
                   }}
                 >
-                  <Text style={{ color: active ? '#FFF' : color, fontWeight: '700' }}>{p}</Text>
+                  <Text style={{ color: active ? '#FFF' : color, fontFamily: 'LexendDeca-SemiBold' }}>{p}</Text>
                 </Pressable>
               );
             })}
@@ -193,17 +195,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF', borderRadius: 22, padding: 16,
     shadowColor: AppColors.primary, shadowOpacity: 0.05, shadowRadius: 10, elevation: 2,
   },
-  label: { fontSize: 11, color: AppColors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5, fontWeight: '800' },
-  titleInput: { fontSize: 17, fontWeight: '800', color: AppColors.text, paddingVertical: 6 },
-  textArea: { fontSize: 14, color: AppColors.text, minHeight: 60, paddingVertical: 6, textAlignVertical: 'top' },
-  value: { fontWeight: '700', color: AppColors.text, fontSize: 14, marginTop: 6 },
+  label: { fontSize: 11, color: AppColors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'LexendDeca' },
+  titleInput: { fontSize: 17, fontFamily: 'LexendDeca-SemiBold', color: AppColors.text, paddingVertical: 6 },
+  textArea: { fontFamily: 'LexendDeca',fontSize: 14, color: AppColors.text, minHeight: 60, paddingVertical: 6, textAlignVertical: 'top' },
+  value: { fontFamily: 'LexendDeca-SemiBold', color: AppColors.text, fontSize: 14, marginTop: 6 },
   rowBetween: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 6 },
-  microLabel: { color: AppColors.textMuted, fontSize: 10 },
+  microLabel: { fontFamily: 'LexendDeca',color: AppColors.textMuted, fontSize: 10 },
   submit: {
     backgroundColor: AppColors.primary, paddingVertical: 16, borderRadius: 999, alignItems: 'center', marginTop: 10,
     shadowColor: AppColors.primary, shadowOpacity: 0.3, shadowRadius: 14,
   },
-  submitText: { color: '#FFF', fontSize: 16, fontWeight: '800' },
+  submitText: { color: '#FFF', fontSize: 16, fontFamily: 'LexendDeca-SemiBold' },
   modalBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
   modalSheet: { backgroundColor: '#FFF', borderTopLeftRadius: 28, borderTopRightRadius: 28, padding: 16, paddingBottom: 30 },
 });

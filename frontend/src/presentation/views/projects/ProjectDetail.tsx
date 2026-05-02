@@ -1,17 +1,25 @@
-import React, { useCallback, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, Alert, Share } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/native';
-import * as Clipboard from 'expo-clipboard';
+import React, { useCallback, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  Alert,
+  Share,
+} from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
+import * as Clipboard from "expo-clipboard";
 
-import { TopBar } from '../../components/TopBar';
-import { AppColors, colorToBg } from '../../theme/AppTheme';
-import { CircleProgress } from '../../components/CircleProgress';
+import { TopBar } from "../../components/TopBar";
+import { AppColors, colorToBg } from "../../theme/AppTheme";
+import { CircleProgress } from "../../components/CircleProgress";
 
-import { ProjectRepository } from '../../../data/repositories/ProjectRepository';
-import { TaskRepository } from '../../../data/repositories/TaskRepository';
-import { Project } from '../../../domain/entities/Project';
-import { Task } from '../../../domain/entities/Task';
+import { ProjectRepository } from "../../../data/repositories/ProjectRepository";
+import { TaskRepository } from "../../../data/repositories/TaskRepository";
+import { Project } from "../../../domain/entities/Project";
+import { Task } from "../../../domain/entities/Task";
 
 export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
   const projectId: number = route.params?.id;
@@ -32,7 +40,11 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
     }
   }, [projectId]);
 
-  useFocusEffect(useCallback(() => { load(); }, [load]));
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [load]),
+  );
 
   // 🔗 Compartir
   const shareCode = async () => {
@@ -49,9 +61,9 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
     if (!project) return;
     try {
       await Clipboard.setStringAsync(project.invite_code);
-      Alert.alert('✅ Copiado', `Código "${project.invite_code}" copiado`);
+      Alert.alert("✅ Copiado", `Código "${project.invite_code}" copiado`);
     } catch {
-      Alert.alert('Error', 'No se pudo copiar');
+      Alert.alert("Error", "No se pudo copiar");
     }
   };
 
@@ -59,23 +71,23 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
   const remove = () => {
     if (!project) return;
     Alert.alert(
-      'Eliminar proyecto',
+      "Eliminar proyecto",
       `¿Seguro que deseas eliminar "${project.name}"?`,
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: "Cancelar", style: "cancel" },
         {
-          text: 'Eliminar',
-          style: 'destructive',
+          text: "Eliminar",
+          style: "destructive",
           onPress: async () => {
             try {
               await ProjectRepository.remove(project.id);
               navigation.goBack();
             } catch {
-              Alert.alert('Error', 'No se pudo eliminar');
+              Alert.alert("Error", "No se pudo eliminar");
             }
-          }
+          },
         },
-      ]
+      ],
     );
   };
 
@@ -88,25 +100,24 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
   }
 
   const c = colorToBg[project.color] || colorToBg.lavender;
-  const done = tasks.filter((t) => t.status === 'DONE').length;
+  const done = tasks.filter((t) => t.status === "DONE").length;
   const progress = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
 
-  const maskedCode = '•'.repeat(project.invite_code.length);
+  const maskedCode = "•".repeat(project.invite_code.length);
 
   return (
     <View style={{ flex: 1, backgroundColor: AppColors.background }}>
       <TopBar
         back
         title={project.name}
-        rightIcon={project.role === 'ADMIN' ? 'trash-2' : 'bell'}
-        onRightPress={project.role === 'ADMIN' ? remove : undefined}
+        rightIcon={project.role === "ADMIN" ? "trash-2" : "bell"}
+        onRightPress={project.role === "ADMIN" ? remove : undefined}
       />
 
       <ScrollView contentContainerStyle={{ padding: 20, gap: 14 }}>
-
         {/* HEADER */}
         <View style={[styles.card, { backgroundColor: c.bg }]}>
-          <Text style={{ fontWeight: '700', color: c.text, fontSize: 11 }}>
+          <Text style={{ fontWeight: "700", color: c.text, fontSize: 11 }}>
             {project.role}
           </Text>
 
@@ -117,9 +128,16 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
           )}
 
           <View style={styles.progressRow}>
-            <CircleProgress value={progress} size={60} stroke={7} color={AppColors.primary} />
+            <CircleProgress
+              value={progress}
+              size={60}
+              stroke={7}
+              color={AppColors.primary}
+            />
             <View>
-              <Text style={styles.progressText}>{done}/{tasks.length} Tareas</Text>
+              <Text style={styles.progressText}>
+                {done}/{tasks.length} Tareas
+              </Text>
               <Text style={styles.progressSub}>Progreso general</Text>
             </View>
           </View>
@@ -136,8 +154,15 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
           </View>
 
           {/* 👁️ Ver/Ocultar */}
-          <Pressable onPress={() => setCodeVisible(!codeVisible)} style={styles.iconBtn}>
-            <Feather name={codeVisible ? 'eye-off' : 'eye'} size={18} color={AppColors.primary} />
+          <Pressable
+            onPress={() => setCodeVisible(!codeVisible)}
+            style={styles.iconBtn}
+          >
+            <Feather
+              name={codeVisible ? "eye-off" : "eye"}
+              size={18}
+              color={AppColors.primary}
+            />
           </Pressable>
 
           {/* 📋 Copiar */}
@@ -161,7 +186,7 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
             {(project.members || []).map((m) => (
               <View key={m.id} style={styles.memberRow}>
                 <View style={styles.avatar}>
-                  <Text style={{ color: '#FFF', fontWeight: '700' }}>
+                  <Text style={{ color: "#FFF", fontWeight: "700" }}>
                     {m.name?.[0]?.toUpperCase()}
                   </Text>
                 </View>
@@ -173,15 +198,27 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
                   <Text style={styles.memberEmail}>{m.email}</Text>
                 </View>
 
-                <View style={[
-                  styles.rolePill,
-                  { backgroundColor: m.role === 'ADMIN' ? AppColors.primaryLight : AppColors.green }
-                ]}>
-                  <Text style={{
-                    color: m.role === 'ADMIN' ? AppColors.primary : AppColors.greenText,
-                    fontWeight: '800',
-                    fontSize: 11
-                  }}>
+                <View
+                  style={[
+                    styles.rolePill,
+                    {
+                      backgroundColor:
+                        m.role === "ADMIN"
+                          ? AppColors.primaryLight
+                          : AppColors.green,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      color:
+                        m.role === "ADMIN"
+                          ? AppColors.primary
+                          : AppColors.greenText,
+                      fontWeight: "800",
+                      fontSize: 11,
+                    }}
+                  >
                     {m.role}
                   </Text>
                 </View>
@@ -196,7 +233,9 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
 
           <Pressable
             style={styles.newTaskBtn}
-            onPress={() => navigation.navigate('CreateTask', { project_id: project.id })}
+            onPress={() =>
+              navigation.navigate("CreateTask", { project_id: project.id })
+            }
           >
             <Feather name="plus" size={14} color="#FFF" />
             <Text style={styles.newTaskText}>Nueva</Text>
@@ -207,28 +246,36 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
           <Text style={styles.empty}>Sin tareas aún.</Text>
         ) : (
           tasks.map((t) => (
-            <View key={t.id} style={styles.taskCard}>
-              <View style={[
-                styles.statusBar,
-                {
-                  backgroundColor:
-                    t.status === 'DONE'
-                      ? AppColors.green
-                      : t.status === 'IN_PROGRESS'
-                      ? AppColors.peach
-                      : AppColors.blue
-                }
-              ]} />
+            <Pressable
+              key={t.id}
+              style={styles.taskCard}
+              onPress={() =>
+                navigation.navigate("EditTask", { task: t, project })
+              }
+            >
+              <View
+                style={[
+                  styles.statusBar,
+                  {
+                    backgroundColor:
+                      t.status === "DONE"
+                        ? AppColors.green
+                        : t.status === "IN_PROGRESS"
+                          ? AppColors.peach
+                          : AppColors.blue,
+                  },
+                ]}
+              />
 
               <View style={{ flex: 1 }}>
                 <Text style={styles.taskTitle} numberOfLines={1}>
                   {t.title}
                 </Text>
                 <Text style={styles.taskMeta} numberOfLines={1}>
-                  {t.priority} · {t.progress}% · {t.due_date || 'sin fecha'}
+                  {t.priority} · {t.progress}% · {t.due_date || "sin fecha"}
                 </Text>
               </View>
-            </View>
+            </Pressable>
           ))
         )}
       </ScrollView>
@@ -238,24 +285,46 @@ export const ProjectDetailScreen: React.FC<any> = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
     borderRadius: 22,
     padding: 16,
     elevation: 2,
   },
-  h1: { fontSize: 22, fontWeight: '800', color: AppColors.text },
-  desc: { color: AppColors.textSecondary, marginTop: 6 },
+  h1: {
+    fontSize: 22,
+    fontFamily: "LexendDeca-SemiBold",
+    color: AppColors.text,
+  },
+  desc: {
+    fontFamily: "LexendDeca",
+    color: AppColors.textSecondary,
+    marginTop: 6,
+  },
 
-  progressRow: { flexDirection: 'row', alignItems: 'center', marginTop: 14, gap: 14 },
-  progressText: { fontWeight: '800', fontSize: 16, color: AppColors.text },
-  progressSub: { color: AppColors.textSecondary },
+  progressRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 14,
+    gap: 14,
+  },
+  progressText: {
+    fontFamily: "LexendDeca-SemiBold",
+    fontSize: 16,
+    color: AppColors.text,
+  },
+  progressSub: { fontFamily: "LexendDeca", color: AppColors.textSecondary },
 
-  label: { fontSize: 11, color: AppColors.textSecondary, fontWeight: '800' },
+  label: {
+    fontFamily: "LexendDeca-SemiBold",
+    fontSize: 11,
+    color: AppColors.textSecondary,
+    fontWeight: "800",
+  },
 
   codeCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF",
     padding: 16,
     borderRadius: 22,
     gap: 8,
@@ -263,7 +332,7 @@ const styles = StyleSheet.create({
 
   codeText: {
     fontSize: 26,
-    fontWeight: '900',
+    fontWeight: "900",
     color: AppColors.primary,
     letterSpacing: 4,
   },
@@ -272,9 +341,9 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 12,
-    backgroundColor: '#F3F4F6',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#F3F4F6",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   shareBtn: {
@@ -282,42 +351,65 @@ const styles = StyleSheet.create({
     height: 44,
     borderRadius: 16,
     backgroundColor: AppColors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 
-  memberRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: AppColors.primary, alignItems: 'center', justifyContent: 'center' },
+  memberRow: { flexDirection: "row", alignItems: "center", gap: 10 },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: AppColors.primary,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-  memberName: { fontWeight: '700', color: AppColors.text },
-  memberEmail: { color: AppColors.textSecondary, fontSize: 12 },
+  memberName: { fontFamily: "LexendDeca-SemiBold", color: AppColors.text },
+  memberEmail: {
+    fontFamily: "LexendDeca",
+    color: AppColors.textSecondary,
+    fontSize: 12,
+  },
 
   rolePill: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 },
 
-  tasksHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  tasksTitle: { fontSize: 18, fontWeight: '800', color: AppColors.text },
+  tasksHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  tasksTitle: {
+    fontSize: 18,
+    fontFamily: "LexendDeca-SemiBold",
+    color: AppColors.text,
+  },
 
   newTaskBtn: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: AppColors.primary,
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 999,
     gap: 6,
   },
-  newTaskText: { color: '#FFF', fontWeight: '700' },
+  newTaskText: { color: "#FFF", fontFamily: "LexendDeca-SemiBold" },
 
-  empty: { textAlign: 'center', color: AppColors.textSecondary },
+  empty: { textAlign: "center", color: AppColors.textSecondary },
 
   taskCard: {
-    flexDirection: 'row',
-    backgroundColor: '#FFF',
+    flexDirection: "row",
+    backgroundColor: "#FFF",
     padding: 12,
     borderRadius: 16,
     gap: 10,
   },
 
   statusBar: { width: 10, borderRadius: 4 },
-  taskTitle: { fontWeight: '800', color: AppColors.text },
-  taskMeta: { fontSize: 12, color: AppColors.textSecondary },
+  taskTitle: { fontFamily: "LexendDeca-SemiBold", color: AppColors.text },
+  taskMeta: {
+    fontFamily: "LexendDeca",
+    fontSize: 12,
+    color: AppColors.textSecondary,
+  },
 });

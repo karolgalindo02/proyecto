@@ -2,12 +2,13 @@ export const AppColors = {
   primary: '#5A45FF',
   primaryHover: '#4A35F0',
   primaryLight: '#EAE7FF',
-  background: '#F8F9FA',
+  background: '#F5F5F6',
   white: '#FFFFFF',
 
-  text: '#1A1A24',
+  text: '#24252C',
   textSecondary: '#6B6B7A',
   textMuted: '#B5B5C1',
+  inputBorder: '#CAB8FF',
 
   // Pasteles para cards
   pink:     '#FFD6E0',
@@ -31,10 +32,9 @@ export const Radius = { card: 24, sheet: 32, pill: 999, input: 16 };
 export const Spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 };
 
 export const FontFamily = {
-  // Usa estas si tienes las fuentes instaladas via expo-font.
-  // Si no, fallback a system.
-  heading: 'System',
-  body: 'System',
+  heading: 'LexendDeca-Bold',
+  subheading: 'LexendDeca-SemiBold',
+  body: 'LexendDeca',
 };
 
 export const colorToBg: Record<string, { bg: string; text: string }> = {

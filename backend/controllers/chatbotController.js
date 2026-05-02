@@ -1,5 +1,5 @@
-const pool = require('../config/db');
 const { generateInviteCode } = require('../utils/inviteCode');
+const pool = require('../config/db');
 const gemini = require('../services/geminiService');
 
 // POST /api/chatbot/message { message, session_id? }
@@ -138,16 +138,20 @@ exports.generateProject = async (req, res) => {
 
     const tasks = Array.isArray(structure.tasks) ? structure.tasks : [];
     for (const t of tasks) {
+      const priority = ['LOW', 'MEDIUM', 'HIGH'].includes(String(t.priority).toUpperCase()) 
+                       ? t.priority.toUpperCase() 
+                       : 'MEDIUM';
+
       await conn.query(
         `INSERT INTO tasks (title, description, project_id, created_by, priority, status)
          VALUES (?, ?, ?, ?, ?, ?)`,
         [
-          (t.title || 'Tarea').slice(0, 100),
+          (t.title || 'Tarea sin título').slice(0, 100),
           t.description || '',
           projectId,
           req.user.id,
-          ['LOW','MEDIUM','HIGH'].includes(t.priority) ? t.priority : 'MEDIUM',
-          'PENDING',
+          priority,
+          'PENDING'
         ]
       );
     }

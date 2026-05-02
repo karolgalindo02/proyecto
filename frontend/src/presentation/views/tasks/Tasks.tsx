@@ -7,6 +7,7 @@ import { TopBar } from '../../components/TopBar';
 import { BottomNav } from '../../components/BottomNav';
 import { TaskRepository } from '../../../data/repositories/TaskRepository';
 import { Task, TaskStatus } from '../../../domain/entities/Task';
+import { BackgroundBlobs } from '../../components/BackgroundBlobs';
 
 const FILTERS: Array<{ id: 'ALL' | TaskStatus; label: string }> = [
   { id: 'ALL', label: 'All' },
@@ -66,10 +67,12 @@ export const TasksScreen: React.FC<any> = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: AppColors.background }}>
+        <View style={{ flex: 1 }}>
+          <BackgroundBlobs />
       <TopBar title="Today's Tasks" back />
 
       {/* Fecha row */}
+      <View style={{ height: 130 }}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
         {daysRow().map((d) => {
           const active = fmtIso(d) === fmtIso(date);
@@ -86,8 +89,10 @@ export const TasksScreen: React.FC<any> = ({ navigation }) => {
           );
         })}
       </ScrollView>
+      </View>
 
       {/* Filtros */}
+      <View style={{ height: 60 }}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterRow}>
         {FILTERS.map((f) => {
           const active = filter === f.id;
@@ -98,6 +103,7 @@ export const TasksScreen: React.FC<any> = ({ navigation }) => {
           );
         })}
       </ScrollView>
+      </View>
 
       {/* Lista */}
       <ScrollView contentContainerStyle={{ padding: 20, gap: 12, paddingBottom: 140 }}>
@@ -106,11 +112,11 @@ export const TasksScreen: React.FC<any> = ({ navigation }) => {
         ) : tasks.length === 0 ? (
           <View style={styles.empty}>
             <Text style={{ fontSize: 40 }}>📝</Text>
-            <Text style={{ fontWeight: '800', fontSize: 16, marginTop: 6 }}>Sin tareas para este día</Text>
-            <Text style={{ color: AppColors.textSecondary, marginTop: 4 }}>Crea una tarea para empezar</Text>
+            <Text style={{ fontFamily: 'LexendDeca-SemiBold', fontSize: 16, marginTop: 6 }}>Sin tareas para este día</Text>
+            <Text style={{ color: AppColors.textSecondary, marginTop: 4, fontFamily: 'LexendDeca' }}>Crea una tarea para empezar</Text>
             <Pressable style={styles.newBtn} onPress={() => navigation.navigate('CreateTask', { date: fmtIso(date) })}>
               <Feather name="plus" size={14} color="#FFF" />
-              <Text style={{ color: '#FFF', fontWeight: '700' }}>Nueva tarea</Text>
+              <Text style={{ color: '#FFF', fontFamily: 'LexendDeca-SemiBold' }}>Nueva tarea</Text>
             </Pressable>
           </View>
         ) : (
@@ -138,7 +144,7 @@ export const TasksScreen: React.FC<any> = ({ navigation }) => {
                   ) : null}
                 </View>
                 <View style={[styles.statusBadge, { backgroundColor: st.bg }]}>
-                  <Text style={{ color: st.fg, fontSize: 11, fontWeight: '800' }}>{st.label}</Text>
+                  <Text style={{ color: st.fg, fontSize: 11, fontFamily: 'LexendDeca-SemiBold' }}>{st.label}</Text>
                 </View>
               </View>
             );
@@ -152,21 +158,51 @@ export const TasksScreen: React.FC<any> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  dateRow: { paddingHorizontal: 20, paddingVertical: 8, gap: 10 },
+dateRow: { 
+  paddingHorizontal: 20, 
+  paddingTop: 10,     
+  paddingBottom: 5, 
+  gap: 10 
+},
   dateCell: {
-    width: 64, paddingVertical: 10, paddingHorizontal: 6, borderRadius: 18,
-    alignItems: 'center', backgroundColor: '#FFF',
-    shadowColor: AppColors.primary, shadowOpacity: 0.08, shadowRadius: 8, elevation: 2,
-  },
-  dateMonth: { fontSize: 10, color: AppColors.textSecondary, fontWeight: '700', textTransform: 'uppercase' },
-  dateDay: { fontSize: 22, fontWeight: '800', color: AppColors.text },
-  dateWd: { fontSize: 10, color: AppColors.textSecondary },
+  width: 74,           
+  height: 110,       
+  paddingVertical: 14,
+  borderRadius: 24, 
+  alignItems: 'center', 
+  justifyContent: 'space-between', 
+  backgroundColor: '#FFF',
+  shadowColor: AppColors.primary, 
+  shadowOpacity: 0.05, 
+  shadowRadius: 10, 
+  elevation: 3,
+},
+  dateMonth: { fontSize: 10, color: AppColors.textSecondary, fontFamily: 'LexendDeca-SemiBold', textTransform: 'uppercase' },
+  dateDay: { 
+  fontSize: 26,     
+  fontFamily: 'LexendDeca-SemiBold', 
+  color: AppColors.text,
+  marginVertical: 4 
+},
+  dateWd: { fontFamily: 'LexendDeca', fontSize: 10, color: AppColors.textSecondary },
 
-  filterRow: { paddingHorizontal: 20, paddingVertical: 10, gap: 10 },
-  chip: { backgroundColor: AppColors.primaryLight, paddingHorizontal: 18, paddingVertical: 10, borderRadius: 999 },
-  chipText: { fontWeight: '700', fontSize: 13 },
+  filterRow: { 
+  
+  paddingHorizontal: 20, 
+  paddingVertical: 5, 
+  gap: 8, 
+  alignItems: 'center',
+},
+  chip: { 
+  backgroundColor: '#F0EFFF', 
+  paddingHorizontal: 24,
+  height: 44,
+  paddingVertical: 12, 
+  borderRadius: 999,       
+},
+  chipText: { fontFamily: 'LexendDeca-SemiBold', fontSize: 13 },
 
-  empty: { backgroundColor: '#FFF', borderRadius: 24, padding: 24, alignItems: 'center', marginTop: 20 },
+  empty: { backgroundColor: '#FFF', borderRadius: 24, padding: 24, alignItems: 'center' },
   newBtn: { marginTop: 14, backgroundColor: AppColors.primary, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999, flexDirection: 'row', gap: 6, alignItems: 'center' },
 
   taskCard: {
@@ -179,7 +215,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
   },
   taskCat: { fontSize: 11, color: AppColors.textSecondary, marginBottom: 2 },
-  taskTitle: { fontWeight: '800', color: AppColors.text, fontSize: 15 },
+  taskTitle: { fontFamily: 'LexendDeca-SemiBold', color: AppColors.text, fontSize: 15 },
   taskDone: { textDecorationLine: 'line-through', opacity: 0.6 },
   statusBadge: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999 },
 });

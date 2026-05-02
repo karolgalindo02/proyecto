@@ -11,6 +11,7 @@ import { RoleChooseScreen } from '../views/role/RoleChoose';
 import { DashboardScreen } from '../views/dashboard/Dashboard';
 import { TasksScreen } from '../views/tasks/Tasks';
 import { CreateTaskScreen } from '../views/tasks/CreateTask';
+import { EditTaskScreen } from '../views/tasks/EditTask';
 import { CreateProjectScreen } from '../views/projects/CreateProject';
 import { JoinProjectScreen } from '../views/projects/JoinProject';
 import { ProjectDetailScreen } from '../views/projects/ProjectDetail';
@@ -46,6 +47,7 @@ export const MainStackNavigator: React.FC = () => {
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
         <Stack.Screen name="Tasks" component={TasksScreen} />
         <Stack.Screen name="CreateTask" component={CreateTaskScreen} />
+        <Stack.Screen name="EditTask" component={EditTaskScreen} />
         <Stack.Screen name="CreateProject" component={CreateProjectScreen} />
         <Stack.Screen name="JoinProject" component={JoinProjectScreen} />
         <Stack.Screen name="ProjectDetail" component={ProjectDetailScreen} />
